@@ -1,8 +1,7 @@
 package ke.co.dynamodigital.commons.models.notifications;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Singular;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
 
 import java.util.List;
 
@@ -11,12 +10,23 @@ import java.util.List;
  * created 9/2/19 at 23:14
  **/
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class TokenNotification extends Notification {
-    private TokenModel tokenModel;
+    private String token;
 
-    @Builder(toBuilder = true)
-    public TokenNotification(@Singular List<EgressType> routes, @Singular List<Recipient> recipients, TokenModel tokenModel) {
-        super(routes, recipients);
-        this.tokenModel = tokenModel;
-    }
+    private String units;
+
+    private String tariff;
+
+    private String amount;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Africa/Nairobi")
+    private String timestamp;
+
+    private String meterNumber;
+
 }

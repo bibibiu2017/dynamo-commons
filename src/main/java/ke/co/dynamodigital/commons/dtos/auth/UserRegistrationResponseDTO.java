@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegistrationResponseDTO {
+public class UserRegistrationResponseDTO {
     @ApiModelProperty(position = 1)
     private String username;
     @ApiModelProperty(position = 2)

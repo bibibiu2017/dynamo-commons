@@ -17,6 +17,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class BaseEntityTable implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     protected Long id;
 }

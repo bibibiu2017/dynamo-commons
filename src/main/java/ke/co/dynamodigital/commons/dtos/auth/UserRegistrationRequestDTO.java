@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegistrationRequestDTO {
+public class UserRegistrationRequestDTO {
 
     @ApiModelProperty(
             hidden = true
@@ -31,6 +31,7 @@ public class RegistrationRequestDTO {
             name = "idNumber",
             required = true,
             dataType = "string",
+            example = "11223344",
             position = 1
     )
     private String username;
@@ -41,6 +42,7 @@ public class RegistrationRequestDTO {
             name = "firstName",
             required = true,
             dataType = "string",
+            example = "John",
             position = 3
     )
     private String firstName;
@@ -49,6 +51,7 @@ public class RegistrationRequestDTO {
     @NotBlank(message = "field cannot be blank")
     @ApiModelProperty(
             name = "lastName",
+            example = "Doe",
             required = true,
             dataType = "string",
             position = 4
@@ -58,6 +61,7 @@ public class RegistrationRequestDTO {
     @Size(min = 6, max = 20)
     @ApiModelProperty(
             name = "password",
+            example = "password",
             required = true,
             dataType = "string",
             position = 2,
@@ -69,6 +73,7 @@ public class RegistrationRequestDTO {
     @Pattern(regexp = "(?:254|0)(7[0-9]{8})",message = "Invalid phone number. Must be a valid Kenyan phone number.")
     @ApiModelProperty(
             name = "phoneNumber",
+            example = "254711223344",
             required = true,
             dataType = "string",
             position = 5,
@@ -81,20 +86,12 @@ public class RegistrationRequestDTO {
             message = "Invalid email address"
     )
     @ApiModelProperty(
-            name = "phoneNumber",
+            name = "email",
+            example = "example@email.com",
             required = true,
             dataType = "string",
             position = 6,
             notes = "must be a valid Kenyan phone number we recommend a Safaricom line due to wallet top up"
     )
     private String email;
-
-    @ApiModelProperty(
-            name = "company",
-            required = true,
-            dataType = "string",
-            position = 7,
-            notes = "Must be a unique name. Only applicable to vendor registration"
-    )
-    private String company;
 }

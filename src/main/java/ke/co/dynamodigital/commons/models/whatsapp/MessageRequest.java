@@ -1,4 +1,4 @@
-package ke.co.dynamodigital.commons.models.notifications;
+package ke.co.dynamodigital.commons.models.whatsapp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author Bibibiu
- * created 9/2/19 at 22:47
+ * created 9/3/19 at 00:25
+ * Clickatell's message request Object
  **/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class Recipient {
-    private Long userId;
-    private Contact contact;
+public class MessageRequest {
+    private String to;
+    private String content;
 }

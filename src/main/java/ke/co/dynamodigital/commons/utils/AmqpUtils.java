@@ -22,7 +22,7 @@ public class AmqpUtils {
     public static <T> Message<T> buildMessageFrom(T var, Map<String, Object> headers) {
         return MessageBuilder
                 .withPayload(var)
-                .copyHeadersIfAbsent(headers)
+                .copyHeaders(headers)
                 .build();
     }
 
@@ -31,5 +31,9 @@ public class AmqpUtils {
                 .withPayload(var)
                 .setHeaderIfAbsent(headerName,header)
                 .build();
+    }
+
+    public Integer deathCount(Map<?,?> death) {
+        return ((Long) death.get("count")).intValue();
     }
 }

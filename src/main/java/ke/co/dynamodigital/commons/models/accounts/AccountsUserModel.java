@@ -1,9 +1,6 @@
 package ke.co.dynamodigital.commons.models.accounts;
 
 import io.swagger.annotations.ApiModelProperty;
-import ke.co.dynamodigital.commons.models.accounts.CashWalletModel;
-import ke.co.dynamodigital.commons.models.accounts.LoanWallet;
-import ke.co.dynamodigital.commons.models.accounts.Meter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,13 +17,13 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountsUserInfo {
+public class AccountsUserModel {
     @ApiModelProperty(position = 1)
-    private CashWalletModel cashWallet;
+    private CashWalletModel cashWalletModel;
     @ApiModelProperty(position = 2)
-    private LoanWallet loanWallet;
+    private LoanWalletModel loanWalletModel;
     @ApiModelProperty(position = 3)
-    private Set<Meter> meters;
+    private Set<MeterModel> meterModels;
     @ApiModelProperty(position = 4)
     private Map<String,Object> additionalInfo;
 }

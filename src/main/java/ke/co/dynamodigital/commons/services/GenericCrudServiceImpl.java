@@ -16,7 +16,7 @@ import java.util.List;
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 public abstract class GenericCrudServiceImpl<T, ID extends Serializable> implements GenericCrudService<T, ID> {
     @Autowired
-    private JpaRepository<T, ID> repository;
+    protected JpaRepository<T, ID> repository;
 
     @Override
     public List<T> findAll() {

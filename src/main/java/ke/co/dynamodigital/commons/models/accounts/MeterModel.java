@@ -5,19 +5,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.Map;
 
 /**
  * @author Bibibiu
- * created 8/29/19 at 17:38
+ * created 8/29/19 at 19:07
  **/
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoanWallet {
-    private BigDecimal loanBalance;
-    private BigDecimal loanLimit;
+public class MeterModel {
+    private String meterNumber;
+    private String status;
     private Map<String,Object> additionalInfo;
 }
