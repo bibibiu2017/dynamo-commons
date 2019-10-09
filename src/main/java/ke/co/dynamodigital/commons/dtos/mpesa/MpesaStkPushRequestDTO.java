@@ -23,7 +23,7 @@ public class MpesaStkPushRequestDTO {
     private String password;
 
     @JsonProperty("Timestamp")
-    private String timestamp;
+    private String date;
 
     @JsonProperty("TransactionType")
     private String transactionType;
