@@ -13,10 +13,10 @@ import java.io.Serializable;
  * created 8/28/19 at 08:49
  **/
 @Data
-@SuperBuilder
 @MappedSuperclass
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder(toBuilder = true)
 public class BaseEntityIdentity implements Serializable {
 
     @Id

@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 /**
  * @author Bibibiu
  * created 9/10/19 at 19:53
  **/
 @Data
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionModel {

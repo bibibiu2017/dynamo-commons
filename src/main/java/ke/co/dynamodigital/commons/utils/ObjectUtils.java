@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 /**
  * @author Bibibiu
@@ -49,9 +50,9 @@ public class ObjectUtils {
      * @param valueType  expected Object type
      * @param <T>        Class type
      * @return java pojo
-     * @throws IOException exception
      */
-    public static <T> T jsonToObject(String jsonString, Class<T> valueType) throws IOException {
+    @SneakyThrows
+    public static <T> T jsonToObject(String jsonString, Class<T> valueType) {
         return objectMapper.readValue(jsonString, valueType);
     }
 

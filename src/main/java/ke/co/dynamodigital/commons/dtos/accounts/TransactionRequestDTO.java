@@ -14,9 +14,9 @@ import java.util.Map;
  * created 8/29/19 at 04:25
  **/
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(toBuilder = true)
 public class TransactionRequestDTO {
 
     @NotNull

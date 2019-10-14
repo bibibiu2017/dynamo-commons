@@ -13,10 +13,10 @@ import java.io.Serializable;
  * created 8/28/19 at 08:51
  **/
 @Data
-@SuperBuilder
 @MappedSuperclass
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder(toBuilder = true)
 public class BaseEntityTable implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

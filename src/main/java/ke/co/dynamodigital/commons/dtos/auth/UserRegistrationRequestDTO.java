@@ -6,10 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 /**
  * @author Bibibiu
@@ -26,15 +23,15 @@ public class UserRegistrationRequestDTO {
     )
     private Long userId;
 
-    @Size(min = 4, max = 16, message = "Invalid user name must have a minimum of 4 characters and a maximum of 16.")
+    @Size(min = 6, max = 16, message = "Invalid user name must have a minimum of 4 characters and a maximum of 16.")
     @ApiModelProperty(
             name = "idNumber",
             required = true,
             dataType = "string",
-            example = "11223344",
-            position = 1
+            example = "22378876",
+            position = 6
     )
-    private String username;
+    private String idNumber;
 
     @NotNull(message = "field cannot be null")
     @NotBlank(message = "field cannot be blank")
@@ -81,17 +78,18 @@ public class UserRegistrationRequestDTO {
     )
     private String phoneNumber;
 
-    @Pattern(
+    /*@Pattern(
             regexp = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$",
             message = "Invalid email address"
-    )
+    )*/
+    @Email(message = "Invalid email address. Must be a valid email address")
     @ApiModelProperty(
             name = "email",
             example = "example@email.com",
             required = true,
             dataType = "string",
-            position = 6,
-            notes = "must be a valid Kenyan phone number we recommend a Safaricom line due to wallet top up"
+            position = 1,
+            notes = "Must be a valid email address"
     )
     private String email;
 }
