@@ -37,7 +37,7 @@ public abstract class NotificationsBuilderImpl<T extends Notification, P> implem
                 .slackWebHook((String) metadata.get("slack"))
                 .phoneNumber((String) metadata.get("phoneNumber"))
                 .email((String) metadata.get("email"))
-                .callbacks((Map<String, String>) metadata.get("callbacks"))
+                .callbackUrl((String) metadata.get("callbackUrl"))
                 .build();
         return Lists.newArrayList(Recipient.builder().contact(contact).build());
     }

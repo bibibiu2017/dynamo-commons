@@ -17,7 +17,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CashWalletModel {
-    private BigDecimal balance;
-    private BigDecimal sandboxBalance;
+    private BigDecimal actualBalance;
+    private BigDecimal availableBalance;
     private Map<String,Object> additionalInfo;
 }
