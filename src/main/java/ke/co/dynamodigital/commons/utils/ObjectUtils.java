@@ -1,5 +1,7 @@
 package ke.co.dynamodigital.commons.utils;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -10,7 +12,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 
 /**
  * @author Bibibiu
@@ -18,18 +19,15 @@ import java.util.UUID;
  **/
 @Slf4j
 public class ObjectUtils {
-    final static ObjectMapper objectMapper;
-    public static final DateTimeFormatter df;
-    public static final LocalDateTime now;
+    public static final ZoneId EAT_ZONE = ZoneId.of(ZoneId.SHORT_IDS.get("EAT"));
+    private final static ObjectMapper objectMapper;
 
     static {
         objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         objectMapper.registerModules(new JavaTimeModule());
+        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
 
-        df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z");
-
-        now = LocalDateTime.now(ZoneId.of("Africa/Nairobi"));
     }
 
     /**
@@ -52,13 +50,43 @@ public class ObjectUtils {
      * @return java pojo
      */
     @SneakyThrows
+    public static <T> T readJson(String jsonString, Class<T> valueType) {
+        return objectMapper.readValue(jsonString, valueType);
+    }
+
+    /**
+     * Method to deserialize json object to a java pojo
+     *
+     * @param jsonString Json object to deserialize
+     * @param valueType  expected Object type
+     * @param <T>        Class type
+     * @return java pojo
+     */
+    @SneakyThrows
+    @Deprecated
     public static <T> T jsonToObject(String jsonString, Class<T> valueType) {
         return objectMapper.readValue(jsonString, valueType);
     }
 
-    public static <T> T enumFromString(String enumName, Class<? extends Enum> enumType) {
-        return ((T) Enum.valueOf(enumType, enumName));
+    /**
+     * Gets a zoned date time formatter -> yyyy-MM-dd HH:mm:ss Z
+     *
+     * @return zoned date formatter
+     */
+    public static DateTimeFormatter zonedDf() {
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z");
     }
 
-    public static final ZoneId EAT_ZONE = ZoneId.of(ZoneId.SHORT_IDS.get("EAT"));
+    /**
+     * Gets date formatter -> yyyy-MM-dd HH:mm:ss
+     *
+     * @return date formatter without zone
+     */
+    public static DateTimeFormatter df() {
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    }
+
+    public static LocalDateTime nowEAT() {
+        return LocalDateTime.now(ZoneId.of("Africa/Nairobi"));
+    }
 }

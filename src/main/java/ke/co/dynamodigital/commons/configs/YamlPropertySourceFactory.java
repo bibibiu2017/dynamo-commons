@@ -4,6 +4,7 @@ package ke.co.dynamodigital.commons.configs;
  * @author Bibibiu
  * created 10/13/19 at 17:33
  **/
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +58,7 @@ public class YamlPropertySourceFactory implements PropertySourceFactory {
     }
 
     private Resource findResourceBasedOnActiveProfiles(EncodedResource resource) {
-        String   resourceName   = resource.getResource().getFilename();
+        String resourceName = resource.getResource().getFilename();
         String[] activeProfiles = this.getActiveRuntimeProfiles();
 
         for (String activeProfile : activeProfiles) {
@@ -92,10 +93,9 @@ public class YamlPropertySourceFactory implements PropertySourceFactory {
      * conditionally, for example based on deployment environment. Profiles can be
      * activated adding the command line argument -Dspring.profiles.active upon starting
      * the application (e.g. java -jar -Dspring.profiles.active=prod myapp.jar).
-     *
      */
     private String[] getActiveRuntimeProfiles() {
         String profileConfig = System.getProperty("spring.profiles.active");
-        return StringUtils.isBlank(profileConfig) ? new String[] {} : profileConfig.split(",");
+        return StringUtils.isBlank(profileConfig) ? new String[]{} : profileConfig.split(",");
     }
 }

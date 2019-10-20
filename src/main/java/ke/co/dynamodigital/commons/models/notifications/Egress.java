@@ -5,19 +5,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * @author Bibibiu
- * created 9/2/19 at 23:03
+ * created 10/19/19 at 23:45
  **/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class Contact {
-    private String phoneNumber;
-    private String email;
-    private String slackWebHook;
-    private String callbackUrl;
+public class Egress {
+    EgressType type;
+    List<Recipient> recipients;
 }

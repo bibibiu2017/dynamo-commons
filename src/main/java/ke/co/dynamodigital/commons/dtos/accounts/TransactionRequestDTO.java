@@ -31,5 +31,5 @@ public class TransactionRequestDTO {
     @NotNull
     @NotBlank
     private String uuid;
-    private Map<String,Object> requirements;
+    private Map<String, Object> requirements;
 }

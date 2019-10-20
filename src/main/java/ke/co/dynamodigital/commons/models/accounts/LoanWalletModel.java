@@ -19,5 +19,5 @@ import java.util.Map;
 public class LoanWalletModel {
     private BigDecimal loanBalance;
     private BigDecimal loanLimit;
-    private Map<String,Object> additionalInfo;
+    private Map<String, Object> additionalInfo;
 }

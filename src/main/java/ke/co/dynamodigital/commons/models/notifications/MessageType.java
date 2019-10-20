@@ -2,8 +2,9 @@ package ke.co.dynamodigital.commons.models.notifications;
 
 /**
  * @author Bibibiu
- * created 9/3/19 at 00:01
+ * created 10/20/19 at 03:45
  **/
 public enum MessageType {
-    ALERT, ALARM, ERROR
+    ALARM, DELAYED, SECURITY, ALERT, ERROR;
+
 }

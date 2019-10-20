@@ -6,9 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Column;
-import java.math.BigDecimal;
-
 /**
  * @author Bibibiu
  * created 10/10/19 at 03:21

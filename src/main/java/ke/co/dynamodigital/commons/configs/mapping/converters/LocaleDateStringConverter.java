@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
  **/
 @Slf4j
 @Component
-public class LocaleDateStringConverter extends ConverterConfigurer<LocalDateTime,String> {
+public class LocaleDateStringConverter extends ConverterConfigurer<LocalDateTime, String> {
 
     @Override
     public Converter<LocalDateTime, String> converter() {

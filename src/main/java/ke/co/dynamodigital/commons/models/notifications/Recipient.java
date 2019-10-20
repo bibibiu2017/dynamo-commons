@@ -14,6 +14,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class Recipient {
-    private Long userId;
-    private Contact contact;
+    private String address;
 }

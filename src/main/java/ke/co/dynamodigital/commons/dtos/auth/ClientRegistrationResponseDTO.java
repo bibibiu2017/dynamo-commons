@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Negative;
-
 /**
  * @author Bibibiu
  * created 9/11/19 at 21:02

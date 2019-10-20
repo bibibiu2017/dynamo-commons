@@ -6,9 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 
@@ -51,6 +48,6 @@ public class OrganisationRegistrationRequestDTO {
             example = "2547XXXXXXXX",
             position = 2
     )
-    @Pattern(regexp = "(?:254|0)(7[0-9]{8})",message = "Invalid phone number. Must be a valid Kenyan phone number.")
+    @Pattern(regexp = "(?:254|0)(7[0-9]{8})", message = "Invalid phone number. Must be a valid Kenyan phone number.")
     private String phoneNumber;
 }

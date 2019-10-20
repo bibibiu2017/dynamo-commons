@@ -18,5 +18,5 @@ import java.util.Map;
 public class MeterModel {
     private String meterNumber;
     private String status;
-    private Map<String,Object> additionalInfo;
+    private Map<String, Object> additionalInfo;
 }

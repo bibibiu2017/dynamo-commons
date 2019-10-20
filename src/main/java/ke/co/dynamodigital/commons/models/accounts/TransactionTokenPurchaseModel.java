@@ -1,10 +1,10 @@
 package ke.co.dynamodigital.commons.models.accounts;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.h2.mvstore.tx.Transaction;
-
-import java.math.BigDecimal;
 
 /**
  * @author Bibibiu

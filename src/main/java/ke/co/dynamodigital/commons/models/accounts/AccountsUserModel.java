@@ -25,5 +25,5 @@ public class AccountsUserModel {
     @ApiModelProperty(position = 3)
     private Set<MeterModel> meterModels;
     @ApiModelProperty(position = 4)
-    private Map<String,Object> additionalInfo;
+    private Map<String, Object> additionalInfo;
 }

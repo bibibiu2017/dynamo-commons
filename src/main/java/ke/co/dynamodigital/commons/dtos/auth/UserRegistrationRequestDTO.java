@@ -67,7 +67,7 @@ public class UserRegistrationRequestDTO {
     )
     private String password;
 
-    @Pattern(regexp = "(?:254|0)(7[0-9]{8})",message = "Invalid phone number. Must be a valid Kenyan phone number.")
+    @Pattern(regexp = "(?:254|0)(7[0-9]{8})", message = "Invalid phone number. Must be a valid Kenyan phone number.")
     @ApiModelProperty(
             name = "phoneNumber",
             example = "254711223344",

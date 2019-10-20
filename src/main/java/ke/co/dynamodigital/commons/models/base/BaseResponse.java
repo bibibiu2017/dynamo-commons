@@ -25,5 +25,5 @@ public class BaseResponse {
     @JsonProperty("timestamp")
     private LocalDateTime time;
     private String message;
-    private Map<String,Object> additionalInfo;
+    private Map<String, Object> additionalInfo;
 }

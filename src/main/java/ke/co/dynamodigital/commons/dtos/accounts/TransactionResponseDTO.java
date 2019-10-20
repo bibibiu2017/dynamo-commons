@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 /**
@@ -20,5 +18,5 @@ import java.util.Map;
 public class TransactionResponseDTO {
     private String refNumber;
     private String status;
-    private Map<String,Object> results;
+    private Map<String, Object> results;
 }

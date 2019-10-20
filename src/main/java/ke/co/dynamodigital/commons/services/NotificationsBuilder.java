@@ -2,7 +2,6 @@ package ke.co.dynamodigital.commons.services;
 
 import ke.co.dynamodigital.commons.models.notifications.Notification;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,14 +10,15 @@ import java.util.Map;
  * This class defines all notification methods required to
  * create and interact with notifications
  **/
-public interface NotificationsBuilder<T extends Notification, P> {
+public interface NotificationsBuilder {
 
     /**
-     * Notification builder that builds a notification of type T
-     * give a payload of type P and map containing metadata
+     * Notification builder that builds a notification
+     * given a payload of type P and map containing metadata
+     *
      * @param payload  notification payload
      * @param metadata metadata to extract notification info
-     * @return Notification of type T
+     * @return returns built notification
      */
-    T buildNotification(P payload, Map<String, Object> metadata);
+    <T> Notification buildNotification(T payload, Map<String, Object> metadata);
 }

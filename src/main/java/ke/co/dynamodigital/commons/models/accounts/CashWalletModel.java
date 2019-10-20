@@ -19,5 +19,5 @@ import java.util.Map;
 public class CashWalletModel {
     private BigDecimal actualBalance;
     private BigDecimal availableBalance;
-    private Map<String,Object> additionalInfo;
+    private Map<String, Object> additionalInfo;
 }

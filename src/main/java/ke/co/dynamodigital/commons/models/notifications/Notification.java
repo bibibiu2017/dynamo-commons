@@ -1,13 +1,13 @@
 package ke.co.dynamodigital.commons.models.notifications;
 
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Bibibiu
@@ -19,17 +19,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        property = "type"
-)
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = TokenNotification.class,name = "tokenNotification"),
-        @JsonSubTypes.Type(value = GenericNotification.class,name = "genericNotification"),
-        @JsonSubTypes.Type(value = TransactionNotification.class,name = "transactionNotification")
-})
+@SuperBuilder(toBuilder = true)
 public class Notification {
-    List<EgressType> routes;
-    List<Recipient> recipients;
-    boolean delayed;
+    private NotificationType notificationType;
+    private List<Egress> egresses;
+    private Map<String, String> requirements;
 }
