@@ -19,10 +19,10 @@ import static ke.co.dynamodigital.commons.models.notifications.EgressType.SLACK;
  **/
 @SuppressWarnings("unchecked")
 @Slf4j
-public class NotificationsBuilderImpl<T> implements NotificationsBuilder {
+public class NotificationsBuilderImpl implements NotificationsBuilder {
 
     @Override
-    public <T> Notification buildNotification(T payload, Map<String, Object> metadata) {
+    public Notification buildNotification(Object payload, Map<String, Object> metadata) {
         return Notification.builder()
                 .notificationType(extractType(metadata))
                 .requirements(extractRequirements(payload))
@@ -47,7 +47,6 @@ public class NotificationsBuilderImpl<T> implements NotificationsBuilder {
      * @throws UnsupportedOperationException when invalid metadata is provided
      */
     protected List<Egress> extractEgress(Map<String, Object> metadata) throws ClassCastException, NullPointerException, UnsupportedOperationException {
-        log.warn("===Egress not extracted will user default egress: {}===", SLACK);
         return Stream.of(EgressType.values())
                 .map(egressType -> new HashMap<EgressType, List<Recipient>>() {{
                     put(egressType, (List<Recipient>) metadata.get(egressType.name()));
@@ -90,7 +89,7 @@ public class NotificationsBuilderImpl<T> implements NotificationsBuilder {
      * @return notification requirements
      * @throws IllegalArgumentException if invalid payload is passed
      */
-    protected <T> Map<String, String> extractRequirements(T payload) throws IllegalArgumentException {
+    protected  Map<String, String> extractRequirements(Object payload) throws IllegalArgumentException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.convertValue(payload, Map.class);
     }

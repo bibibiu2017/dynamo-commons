@@ -14,11 +14,11 @@ public interface NotificationsBuilder {
 
     /**
      * Notification builder that builds a notification
-     * given a payload of type P and map containing metadata
+     * given a payload Object and map containing metadata
      *
      * @param payload  notification payload
      * @param metadata metadata to extract notification info
      * @return returns built notification
      */
-    <T> Notification buildNotification(T payload, Map<String, Object> metadata);
+    Notification buildNotification(Object payload, Map<String, Object> metadata);
 }
