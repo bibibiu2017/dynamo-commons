@@ -1,14 +1,12 @@
-package ke.co.dynamodigital.commons.configs.notifications;
+package ke.co.dynamodigital.commons.services;
 
-import ke.co.dynamodigital.commons.services.NotificationsBuilder;
-import ke.co.dynamodigital.commons.services.NotificationsBuilderImpl;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
  * @author Bibibiu
  * created 10/20/19 at 07:23
  **/
-public class NotificationSBuilderFactoryBean implements FactoryBean<NotificationsBuilder> {
+public class NotificationsBuilderFactoryBean implements FactoryBean<NotificationsBuilder> {
     @Override
     public NotificationsBuilder getObject() throws Exception {
         return new NotificationsBuilderImpl();

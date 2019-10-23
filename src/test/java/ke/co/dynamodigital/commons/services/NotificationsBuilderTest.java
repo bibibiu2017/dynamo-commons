@@ -1,6 +1,7 @@
 package ke.co.dynamodigital.commons.services;
 
 import com.google.common.collect.Lists;
+import ke.co.dynamodigital.commons.configs.bean.NotificationsBuilderAutoConfigurer;
 import ke.co.dynamodigital.commons.models.notifications.*;
 import ke.co.dynamodigital.commons.testutils.TokenNotification;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,9 @@ import lombok.val;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,12 +25,15 @@ import static org.hamcrest.Matchers.hasSize;
 
 @Slf4j
 @Tag("service")
-class NotificationsBuilderImplTest {
+@SpringBootTest
+@ContextConfiguration(classes = NotificationsBuilderAutoConfigurer.class)
+class NotificationsBuilderTest {
 
     private static TokenNotification tokenNotification;
     private static Map<String, Object> metadata;
-    private NotificationsBuilderImpl<TokenNotification> notificationsBuilder = new NotificationsBuilderImpl<TokenNotification>() {
-    };
+
+    @Autowired
+    private NotificationsBuilderImpl notificationsBuilder;
 
     @BeforeAll
     static void setUpAll() {

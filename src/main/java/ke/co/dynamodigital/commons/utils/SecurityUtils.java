@@ -12,6 +12,7 @@ import java.util.UUID;
  * @author Bibibiu
  * created 8/28/19 at 10:41
  **/
+@SuppressWarnings("unchecked")
 public class SecurityUtils {
 
     public static Map<String, Object> getExtraInfo(Authentication auth) {
