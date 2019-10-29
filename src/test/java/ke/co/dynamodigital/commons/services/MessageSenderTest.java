@@ -1,7 +1,6 @@
 package ke.co.dynamodigital.commons.services;
 
 import ke.co.dynamodigital.commons.CommonsApplication;
-import ke.co.dynamodigital.commons.annotations.TestProfile;
 import ke.co.dynamodigital.commons.configs.test.TestProcessor;
 import ke.co.dynamodigital.commons.utils.AmqpUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +15,7 @@ import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.cloud.stream.test.binder.MessageCollector;
 import org.springframework.cloud.stream.test.binder.MessageCollectorAutoConfiguration;
 import org.springframework.messaging.Message;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.concurrent.BlockingQueue;
@@ -26,8 +26,8 @@ import static org.springframework.cloud.stream.test.matcher.MessageQueueMatcher.
 
 
 @Slf4j
-@TestProfile
 @SpringBootTest
+@ActiveProfiles("test")
 @ContextConfiguration(classes = {MessageCollectorAutoConfiguration.class, CommonsApplication.class})
 class MessageSenderTest {
 

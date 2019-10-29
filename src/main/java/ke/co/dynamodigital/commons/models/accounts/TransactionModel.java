@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 public class TransactionModel {
     private String referenceNumber;
     private String transactionType;
-    private String transactionStatus;
+    private String transactionState;
     private String transactionSource;
     private String paymentMode;
     private String transactionDate;

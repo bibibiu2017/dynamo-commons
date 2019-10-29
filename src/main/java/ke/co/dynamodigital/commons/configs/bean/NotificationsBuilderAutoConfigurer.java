@@ -1,7 +1,7 @@
 package ke.co.dynamodigital.commons.configs.bean;
 
 import ke.co.dynamodigital.commons.services.NotificationsBuilder;
-import ke.co.dynamodigital.commons.services.NotificationsBuilderFactoryBean;
+import ke.co.dynamodigital.commons.configs.factories.NotificationsBuilderFactoryBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

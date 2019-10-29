@@ -1,5 +1,7 @@
-package ke.co.dynamodigital.commons.services;
+package ke.co.dynamodigital.commons.configs.factories;
 
+import ke.co.dynamodigital.commons.services.MessageSender;
+import ke.co.dynamodigital.commons.services.MessageSenderImpl;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.binding.BinderAwareChannelResolver;

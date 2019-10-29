@@ -1,5 +1,7 @@
-package ke.co.dynamodigital.commons.services;
+package ke.co.dynamodigital.commons.configs.factories;
 
+import ke.co.dynamodigital.commons.services.NotificationsBuilder;
+import ke.co.dynamodigital.commons.services.NotificationsBuilderImpl;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
