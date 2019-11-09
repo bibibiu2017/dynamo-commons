@@ -2,12 +2,12 @@ package ke.co.dynamodigital.commons.models.base;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Singular;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -15,15 +15,13 @@ import java.util.Map;
  * created 8/28/19 at 13:43
  **/
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder(toBuilder = true)
 public class BaseResponse {
-    @Deprecated
-    @JsonProperty("time")
-    private Date timestamp;
     @JsonProperty("timestamp")
-    private LocalDateTime time;
+    private LocalDateTime timestamp;
     private String message;
+    @Singular("additionalInfo")
     private Map<String, Object> additionalInfo;
 }

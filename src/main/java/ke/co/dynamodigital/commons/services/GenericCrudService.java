@@ -1,5 +1,8 @@
 package ke.co.dynamodigital.commons.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import javax.persistence.EntityNotFoundException;
 import java.io.Serializable;
 import java.util.List;
@@ -15,6 +18,13 @@ public interface GenericCrudService<T, ID extends Serializable> {
      * @return List of entities of type T
      */
     List<T> findAll();
+
+    /**
+     * Finds all persisted entities and paginates them
+     * @param pageable pageable to use
+     * @return paginated entities
+     */
+    Page<T> findAll(Pageable pageable);
 
     /**
      * Finds entity of Type T using entity id

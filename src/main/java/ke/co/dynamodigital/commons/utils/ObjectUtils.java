@@ -41,18 +41,18 @@ public class ObjectUtils {
         return objectMapper.writeValueAsString(object);
     }
 
-    /**
-     * Method to deserialize json object to a java pojo
-     *
-     * @param jsonString Json object to deserialize
-     * @param valueType  expected Object type
-     * @param <T>        Class type
-     * @return java pojo
-     */
-    @SneakyThrows
-    public static <T> T readJson(String jsonString, Class<T> valueType) {
-        return objectMapper.readValue(jsonString, valueType);
-    }
+        /**
+         * Method to deserialize json object to a java pojo
+         *
+         * @param jsonString Json object to deserialize
+         * @param valueType  expected Object type
+         * @param <T>        Class type
+         * @return java pojo
+         */
+        @SneakyThrows
+        public static <T> T readJson(String jsonString, Class<T> valueType) {
+            return objectMapper.readValue(jsonString, valueType);
+        }
 
     /**
      * Method to deserialize json object to a java pojo

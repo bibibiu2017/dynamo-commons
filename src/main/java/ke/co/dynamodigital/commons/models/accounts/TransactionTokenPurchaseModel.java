@@ -18,5 +18,5 @@ import lombok.experimental.SuperBuilder;
 public class TransactionTokenPurchaseModel extends TransactionModel {
     private String amount;
     private String meterNumber;
-    private String phoneNumber;
+    private String address;
 }

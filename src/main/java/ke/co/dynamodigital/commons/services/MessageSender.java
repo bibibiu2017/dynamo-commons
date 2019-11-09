@@ -1,5 +1,6 @@
 package ke.co.dynamodigital.commons.services;
 
+import ke.co.dynamodigital.commons.dtos.general.DelayedMessageDTO;
 import org.springframework.messaging.Message;
 
 import java.util.function.Predicate;
@@ -34,5 +35,26 @@ public interface MessageSender {
      */
     <T> boolean send(Message<T> message, String destination);
 
+    /**
+     * Creates message and sends it to a dynamically resolved queue
+     * @param messageObject message object used to create message of type {@code T}
+     * @param destination destination to send message
+     * @see #send(Message, String)
+     * @return true if message has been sent successfully
+     */
+    boolean send(Object messageObject, String destination);
+
+    /**
+     * Sends a message to a delayed exchange and after the delay the message is sent
+     * to the provided return address. First the message is serialized to json before
+     * being sent to the delay queue. The required headers are set from the object fields.
+     * Some values have default values
+     * @param <T> message type
+     * @see DelayedMessageDTO
+     * @see ke.co.dynamodigital.commons.stream.parking.ListenersParking#park(Message, Integer, Integer, String)
+     * @apiNote Headers put in message headers have a high priority to delayed message field values
+     * @return true if message has been sent successfully
+     */
+    <T>boolean sendDelayed(DelayedMessageDTO<T> delayedMessage);
 
 }

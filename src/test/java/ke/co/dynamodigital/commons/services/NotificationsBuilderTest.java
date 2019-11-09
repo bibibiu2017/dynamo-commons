@@ -1,7 +1,7 @@
 package ke.co.dynamodigital.commons.services;
 
 import com.google.common.collect.Lists;
-import ke.co.dynamodigital.commons.configs.bean.NotificationsBuilderAutoConfigurer;
+import ke.co.dynamodigital.commons.config.bean.NotificationsBuilderAutoConfigurer;
 import ke.co.dynamodigital.commons.models.notifications.*;
 import ke.co.dynamodigital.commons.testutils.TokenNotification;
 import lombok.extern.slf4j.Slf4j;

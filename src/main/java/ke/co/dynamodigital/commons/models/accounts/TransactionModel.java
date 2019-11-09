@@ -14,6 +14,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionModel {
+    private Long id;
     private String referenceNumber;
     private String transactionType;
     private String transactionState;

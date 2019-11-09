@@ -13,6 +13,21 @@ import java.util.Map;
 public class AmqpUtils {
 
     /**
+     * Number of times a message has been sent to the parking queue
+     */
+    public static final String RETRIES_HEADER = "x-retries";
+
+    /**
+     * Number of milliseconds to delay message
+     */
+    public static final String DELAY_HEADER = "x-delay";
+
+    /**
+     * Name of queue to send message to after delay
+     */
+    public static final String RETURN_HEADER = "x-return";
+
+    /**
      * Gets the death count. The number of times a message has been dead lettered
      *
      * @param deathHeader Header with death information
