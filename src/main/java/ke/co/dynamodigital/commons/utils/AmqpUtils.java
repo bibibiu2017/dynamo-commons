@@ -3,6 +3,7 @@ package ke.co.dynamodigital.commons.utils;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,13 +29,30 @@ public class AmqpUtils {
     public static final String RETURN_HEADER = "x-return";
 
     /**
+     * Send to header spring functions
+     */
+    public static final String SEND_TO_HEADER = "spring.cloud.stream.sendto.destination";
+
+    public static final String DEATH_HEADER = "x-death";
+
+    /**
+     * Parking input
+     */
+    public static final String PARKING_INPUT = "parkingSinkInput";
+    /**
      * Gets the death count. The number of times a message has been dead lettered
      *
      * @param deathHeader Header with death information
      * @return number of times a message has been dead lettered
      */
-    public static Long getDeadLetterCount(Map<?, ?> deathHeader) {
-        return (Long) deathHeader.get("count");
+    public static Long getDeadLetterCount(Object deathHeader) {
+        Map<?,?> death;
+        if (deathHeader instanceof Map) {
+            death = (Map<?,?>) deathHeader;
+        } else {
+            death = (Map<?, ?>) ((List<?>)deathHeader).get(0);
+        }
+        return (Long) death.get("count");
     }
 
     /**

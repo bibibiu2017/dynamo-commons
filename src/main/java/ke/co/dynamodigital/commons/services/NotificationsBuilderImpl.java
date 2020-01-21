@@ -11,8 +11,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static ke.co.dynamodigital.commons.models.notifications.EgressType.SLACK;
-
 /**
  * @author Bibibiu
  * created 9/3/19 at 16:03
@@ -35,8 +33,8 @@ public class NotificationsBuilderImpl implements NotificationsBuilder {
      * Extracts List of egress from metadata. For this to work, metadata
      * provided should contain maps of
      *     <ul>
-     *         <li><strong>key</strong> -> egressType</li>
-     *         <li><strong>value</strong> -> List(Recipients)</li>
+     *         <li><strong>key</strong> --- egressType</li>
+     *         <li><strong>value</strong> --- List(Recipients)</li>
      *     </ul>
      * </p>
      *
@@ -61,7 +59,7 @@ public class NotificationsBuilderImpl implements NotificationsBuilder {
     /**
      * <p>
      * Extracts the notification type from metadata map.
-     * The type must be provided using:<br> <strong>key</strong> -> type<br>
+     * The type must be provided using:<br> <strong>key</strong> --- type<br>
      * The notification type must also be valid. Validity is determined
      * by accurate spelling otherwise it is case insensitive.
      * </p>

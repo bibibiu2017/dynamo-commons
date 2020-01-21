@@ -1,6 +1,7 @@
 package ke.co.dynamodigital.commons.services;
 
 import ke.co.dynamodigital.commons.dtos.general.DelayedMessageDTO;
+import ke.co.dynamodigital.commons.parking.ParkingStream;
 import org.springframework.messaging.Message;
 
 import java.util.function.Predicate;
@@ -51,7 +52,7 @@ public interface MessageSender {
      * Some values have default values
      * @param <T> message type
      * @see DelayedMessageDTO
-     * @see ke.co.dynamodigital.commons.stream.parking.ListenersParking#park(Message, Integer, Integer, String)
+     * @see ParkingStream#parkingConsumer()(Message, Integer, Integer, String)
      * @apiNote Headers put in message headers have a high priority to delayed message field values
      * @return true if message has been sent successfully
      */

@@ -17,7 +17,7 @@ public class NotificationsBuilderAutoConfigurer {
 
     @Bean
     @ConditionalOnMissingBean(NotificationsBuilderFactoryBean.class)
-    public NotificationsBuilderFactoryBean NotificationSBuilderFactoryBean() {
+    public NotificationsBuilderFactoryBean notificationsBuilder() {
         return new NotificationsBuilderFactoryBean();
     }
 }

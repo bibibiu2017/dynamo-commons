@@ -69,7 +69,7 @@ public class ObjectUtils {
     }
 
     /**
-     * Gets a zoned date time formatter -> yyyy-MM-dd HH:mm:ss Z
+     * Gets a zoned date time formatter --- yyyy-MM-dd HH:mm:ss Z
      *
      * @return zoned date formatter
      */
@@ -78,7 +78,7 @@ public class ObjectUtils {
     }
 
     /**
-     * Gets date formatter -> yyyy-MM-dd HH:mm:ss
+     * Gets date formatter --- yyyy-MM-dd HH:mm:ss
      *
      * @return date formatter without zone
      */
