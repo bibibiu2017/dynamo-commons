@@ -24,6 +24,7 @@ public class SecurityUtils {
      * Gets extra token info. This is the info stored in the
      * token claims.
      * @param key info name
+     * @param <T> the class type of extracted info
      * @param type type of info to get
      * @return found info
      */

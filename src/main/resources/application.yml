@@ -11,3 +11,6 @@ spring:
 logging:
   level:
     ke.co.dynamodigital: debug
+
+server:
+  port: 0

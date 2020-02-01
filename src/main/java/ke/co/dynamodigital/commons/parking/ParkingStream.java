@@ -33,6 +33,7 @@ public class ParkingStream {
      * events and return the message to the provided return address</p>
      * <p><strong>Note:</strong> Message payload must be serialized to jason before sending
      * it to this queue</p>
+     * @return The stream {@link Consumer} that will process this
      */
     @Bean
     public Consumer<Message<byte[]>> parkingConsumer() {

@@ -52,8 +52,9 @@ public interface MessageSender {
      * Some values have default values
      * @param <T> message type
      * @see DelayedMessageDTO
-     * @see ParkingStream#parkingConsumer()(Message, Integer, Integer, String)
-     * @apiNote Headers put in message headers have a high priority to delayed message field values
+     * @see ParkingStream#parkingConsumer()
+     * @param delayedMessage the message to delay
+     * Headers put in message headers have a high priority to delayed message field values
      * @return true if message has been sent successfully
      */
     <T>boolean sendDelayed(DelayedMessageDTO<T> delayedMessage);
