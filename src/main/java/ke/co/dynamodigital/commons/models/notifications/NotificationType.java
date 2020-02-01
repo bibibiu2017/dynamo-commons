@@ -5,5 +5,5 @@ package ke.co.dynamodigital.commons.models.notifications;
  * created 10/19/19 at 23:48
  **/
 public enum NotificationType {
-    TOKEN, WALLET, TRANSACTION
+    TOKEN, WALLET, TRANSACTION, OTP, GENERAL, MARKETING
 }

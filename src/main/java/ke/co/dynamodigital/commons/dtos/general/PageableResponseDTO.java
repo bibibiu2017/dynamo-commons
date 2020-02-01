@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -21,4 +22,14 @@ public class PageableResponseDTO<T> {
     private Long totalRows;
     private Integer totalPages;
     private List<T> items;
+
+    public static <T>PageableResponseDTO<T> from (Page<T> page){
+        return PageableResponseDTO.<T>builder()
+                .totalRows(page.getTotalElements())
+                .items(page.getContent())
+                .totalPages(page.getTotalPages())
+                .page(page.getNumber())
+                .rows(page.getNumberOfElements())
+                .build();
+    }
 }

@@ -1,0 +1,31 @@
+spring:
+  cloud:
+    stream:
+      default-binder: rabbit
+      default:
+        contentType: application/json
+        consumer:
+          max-attempts: 1
+      function:
+        definition: parkingConsumer;messageSenderProducer
+        bindings:
+          parkingConsumer-in-0: parkingSinkInput
+          messageSenderProducer-out-0: messageSenderSourceOutput
+      bindings:
+      #================================================================================================================#
+        parkingSinkInput:
+          destination: pawa.parking.exchange
+          group: commons.parking.queue
+        messageSenderSourceOutput:
+          destination: pawa.message.exchange
+      #================================================================================================================#
+      rabbit:
+        bindings:
+          parkingSinkInput:
+            consumer:
+              bindingRoutingKey: commons.parking.queue.binding
+              delayedExchange: true
+              autoBindDlq: true
+              dlqTtl: 5000
+              dlqDeadLetterExchange:
+

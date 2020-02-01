@@ -2,6 +2,15 @@ spring:
   output:
     ansi:
       enabled: always
+  profiles:
+    active: dev
+  security:
+    user:
+      name: user
+      password: user
 logging:
   level:
     ke.co.dynamodigital: debug
+
+server:
+  port: 0

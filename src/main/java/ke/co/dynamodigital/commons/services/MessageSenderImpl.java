@@ -1,19 +1,22 @@
 package ke.co.dynamodigital.commons.services;
 
 import ke.co.dynamodigital.commons.dtos.general.DelayedMessageDTO;
-import ke.co.dynamodigital.commons.stream.parking.ParkingSource;
 import ke.co.dynamodigital.commons.utils.AmqpUtils;
 import lombok.Data;
-import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.springframework.cloud.stream.binding.BinderAwareChannelResolver;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
+import reactor.core.publisher.EmitterProcessor;
+import reactor.core.publisher.Flux;
 
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import static ke.co.dynamodigital.commons.utils.AmqpUtils.*;
 import static ke.co.dynamodigital.commons.utils.ObjectUtils.writeJson;
@@ -24,18 +27,29 @@ import static ke.co.dynamodigital.commons.utils.ObjectUtils.writeJson;
  **/
 @Data
 @Slf4j
-@SuperBuilder(toBuilder = true)
+@Configuration
 public class MessageSenderImpl implements MessageSender {
 
-    private BinderAwareChannelResolver resolver;
+    private final EmitterProcessor<Message<?>> processor = EmitterProcessor.create();
+
+    @Bean
+    public Supplier<Flux<Message<?>>> messageSenderProducer() {
+        return () -> processor;
+    }
 
     @Override
     public <T> boolean send(Message<T> message, String destination, Predicate<Message<T>> send) {
         if (send.test(message)) {
             log.info("\n=======================================" +
                     "\nsend condition passed will send message" +
-                    "\n=======================================");
-            return resolver.resolveDestination(destination).send(message);
+                    "\nSending Message: {}" +
+                    "\nTo: {}" +
+                    "\n=======================================",writeJson(message.getPayload()),destination);
+            Map<String, Object> headers = new HashMap<>(message.getHeaders());
+            headers.put(SEND_TO_HEADER, destination);
+            Message<?> messageToSend = AmqpUtils.buildMessageFrom(message.getPayload(), headers);
+            processor.onNext(messageToSend);
+            return true;
         }
         log.info("\n==========================================" +
                 "\nsend condition failed will not send message" +
@@ -75,6 +89,6 @@ public class MessageSenderImpl implements MessageSender {
         }};
         Message<?> message = AmqpUtils.buildMessageFrom(writeJson(delayedMessage.getPayload()), headers);
 
-        return send(message, ParkingSource.OUTPUT);
+        return send(message, PARKING_INPUT);
     }
 }
