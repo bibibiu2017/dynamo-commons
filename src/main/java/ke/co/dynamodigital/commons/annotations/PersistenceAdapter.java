@@ -1,19 +1,17 @@
-package ke.co.dynamodigital.commons.config.annotations;
+package ke.co.dynamodigital.commons.annotations;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import java.lang.annotation.*;
 
-/**
- * @author arthurmita
- * created 12/11/2019 at 03:34
- **/
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Component
-public @interface MessagingAdapter {
+@Validated
+public @interface PersistenceAdapter {
 
     /**
      * The value may indicate a suggestion for a logical component name,

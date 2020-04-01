@@ -1,4 +1,4 @@
-package ke.co.dynamodigital.commons.config.mapping.converters;
+package ke.co.dynamodigital.commons.mapping.converter;
 
 import com.github.rozidan.springboot.modelmapper.ConverterConfigurer;
 import lombok.extern.slf4j.Slf4j;

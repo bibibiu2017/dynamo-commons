@@ -1,4 +1,4 @@
-package ke.co.dynamodigital.commons.config.properties;
+package ke.co.dynamodigital.commons.properties;
 
 /**
  * @author Bibibiu

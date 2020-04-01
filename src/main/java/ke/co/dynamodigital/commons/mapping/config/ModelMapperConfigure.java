@@ -1,4 +1,4 @@
-package ke.co.dynamodigital.commons.config.mapping.config;
+package ke.co.dynamodigital.commons.mapping.config;
 
 import com.github.rozidan.springboot.modelmapper.ConfigurationConfigurer;
 import lombok.extern.slf4j.Slf4j;

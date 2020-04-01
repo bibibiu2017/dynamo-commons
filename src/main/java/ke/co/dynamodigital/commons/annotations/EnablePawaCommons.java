@@ -1,4 +1,4 @@
-package ke.co.dynamodigital.commons.config.annotations;
+package ke.co.dynamodigital.commons.annotations;
 
 
 import ke.co.dynamodigital.commons.config.PawaCommonsConfiguration;

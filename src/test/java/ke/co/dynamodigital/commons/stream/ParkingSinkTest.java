@@ -1,6 +1,6 @@
 package ke.co.dynamodigital.commons.stream;
 
-import ke.co.dynamodigital.commons.config.bean.TestConfiguration;
+import ke.co.dynamodigital.commons.config.MessageTestConfiguration;
 import ke.co.dynamodigital.commons.utils.AmqpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ class ParkingSinkTest {
     @Test
     void configurationTest() {
         try (ConfigurableApplicationContext context = new SpringApplicationBuilder(TestChannelBinderConfiguration
-                .getCompleteConfiguration(TestConfiguration.class))
+                .getCompleteConfiguration(MessageTestConfiguration.class))
                 .run(
                         "--spring.cloud.stream.default.contentType=application/json",
                         "--spring.cloud.function.definition=testFunction"
