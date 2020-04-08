@@ -9,7 +9,7 @@ import org.modelmapper.spi.MappingContext;
  **/
 public class RecursiveInheritanceConverter<S, D> extends RecursiveConverter<S, D> {
 
-    private final Class<D> destinationSuperClazz;
+    protected final Class<D> destinationSuperClazz;
 
     public RecursiveInheritanceConverter(ModelMapper modelMapper, Class<D> destinationSuperClazz) {
         super(modelMapper);

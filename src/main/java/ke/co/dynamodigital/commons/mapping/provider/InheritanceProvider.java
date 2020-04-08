@@ -5,6 +5,8 @@ import lombok.SneakyThrows;
 import org.modelmapper.Provider;
 import org.springframework.beans.BeanUtils;
 
+import java.lang.reflect.Constructor;
+
 /**
  * @author lawrencemwaniki
  * created 31/03/2020 at 17:32
@@ -18,7 +20,9 @@ public class InheritanceProvider<S, D> implements Provider<D> {
     @Override
     public D get(ProvisionRequest<D> request) {
         S source = (S) request.getSource();
-        D destination = destinationChildClass.getDeclaredConstructor().newInstance();
+        Constructor<? extends D> constructor = destinationChildClass.getConstructor();
+        constructor.setAccessible(true);
+        D destination = constructor.newInstance();
         BeanUtils.copyProperties(source, destination);
         return destination;
     }
