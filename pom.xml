@@ -11,7 +11,7 @@
 
     <groupId>ke.co.dynamodigital</groupId>
     <artifactId>commons</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.2.0-SNAPSHOT</version>
     <name>commons</name>
     <description>This project holds common resources for all Dynamo projects</description>
 
@@ -70,7 +70,19 @@
         <dependency>
             <groupId>com.github.rozidan</groupId>
             <artifactId>modelmapper-spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.modelmapper</groupId>
+                    <artifactId>modelmapper</artifactId>
+                </exclusion>
+            </exclusions>
             <version>2.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>2.3.7</version>
         </dependency>
 
         <!--Lombok-->
@@ -86,17 +98,6 @@
             <artifactId>h2</artifactId>
         </dependency>
 
-        <!--Swagger-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
-        </dependency>
         <!-- hash-ids-->
         <dependency>
             <groupId>org.hashids</groupId>
@@ -122,6 +123,13 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>27.0.1-jre</version>
+        </dependency>
+
+        <!-- java-faker -->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
         </dependency>
 
         <!-- Spring annotation processor-->
@@ -176,8 +184,8 @@
                 <version>5.0.0.RELEASE</version>
             </extension>
         </extensions>
-        <!-- java doc-->
         <plugins>
+            <!-- java doc-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -208,6 +216,7 @@
                 </executions>
             </plugin>
 
+            <!-- maven-src -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>

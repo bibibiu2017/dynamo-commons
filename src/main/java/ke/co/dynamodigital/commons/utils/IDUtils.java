@@ -21,17 +21,22 @@ public class IDUtils {
     private static String PAWA_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static Integer PAWA_IDS_MIN_LENGTH = 5;
 
-    public static String generateUserId(Long primaryKey){
-         String salt = "dGhpc2lzbWFsaXBvaGFzaGlkc2FsdA==";
-         return generateUniqueId(PAWA_ALPHABET,salt, PAWA_IDS_MIN_LENGTH,primaryKey);
+    public static String generateUserId(Long primaryKey) {
+        String salt = "dGhpc2lzbWFsaXBvaGFzaGlkc2FsdA==";
+        return generateUniqueId(PAWA_ALPHABET, salt, PAWA_IDS_MIN_LENGTH, primaryKey);
     }
 
-    public static String generateLoanId(Long primaryKey){
+    public static String generateLoanId(Long primaryKey) {
         String salt = "dGhpc19pc19tYWxpcG9fY2lyY2xlX2lkc19zYWx0";
-        return generateUniqueId(PAWA_ALPHABET,salt, PAWA_IDS_MIN_LENGTH,primaryKey);
+        return generateUniqueId(PAWA_ALPHABET, salt, PAWA_IDS_MIN_LENGTH, primaryKey);
     }
 
-    private static String generateUniqueId(String alphabet, String salt, Integer minLength, Long primaryKey){
+    public static String generateAccountId(Long primaryKey) {
+        String salt = "aGFzaElkSGFzaDEyMzQ1NTY3OGxvbmdoYXNoMjkwOTA5MA==";
+        return generateUniqueId(PAWA_ALPHABET, salt, PAWA_IDS_MIN_LENGTH, primaryKey);
+    }
+
+    private static String generateUniqueId(String alphabet, String salt, Integer minLength, Long primaryKey) {
         Hashids hashids = new Hashids(salt, minLength, alphabet);
         return hashids.encode(primaryKey);
     }

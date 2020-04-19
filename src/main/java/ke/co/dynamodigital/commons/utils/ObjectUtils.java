@@ -9,6 +9,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -66,6 +67,19 @@ public class ObjectUtils {
     @Deprecated
     public static <T> T jsonToObject(String jsonString, Class<T> valueType) {
         return objectMapper.readValue(jsonString, valueType);
+    }
+
+    /**
+     * Get random ENUM value
+     *
+     * @param clazz target enum class
+     * @param <T>   class type
+     * @return found enum
+     */
+    public static <T extends Enum<?>> T randomEnum(Class<T> clazz) {
+        SecureRandom random = new SecureRandom();
+        int x = random.nextInt(clazz.getEnumConstants().length);
+        return clazz.getEnumConstants()[x];
     }
 
     /**
