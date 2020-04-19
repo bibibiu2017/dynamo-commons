@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -29,9 +31,11 @@ public abstract class BaseEntity implements Serializable {
     @Column(name = "version")
     private Long version;
 
+    @CreationTimestamp
     @Column(name = "created_on", columnDefinition = "DATETIME", updatable = false)
     private LocalDateTime createdOn;
 
+    @UpdateTimestamp
     @Column(name = "updated_on", columnDefinition = "DATETIME")
     private LocalDateTime updatedOn;
 }
