@@ -29,7 +29,22 @@ public class SecurityUtils {
      * @return found info
      */
     @SneakyThrows
+    @Deprecated(forRemoval = true, since = "version 0.2.0")
     public static <T> T getExtraInfo(String key, Class<T> type) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Assert.notNull(auth,"Authentication cannot be null");
+        Jwt claims = (Jwt) auth.getCredentials();
+        return (T) claims.getClaims().get(key);
+    }
+
+    /**
+     * Gets extra token info. This is the info stored in the
+     * token claims.
+     * @param key info name
+     * @param <T> the class type of extracted info
+     * @return found info
+     */
+    public static <T> T getExtraInfo(String key) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Assert.notNull(auth,"Authentication cannot be null");
         Jwt claims = (Jwt) auth.getCredentials();

@@ -15,5 +15,5 @@ import java.lang.annotation.*;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public @interface WebAdaptorTest {
+public @interface WebAdapterTest {
 }

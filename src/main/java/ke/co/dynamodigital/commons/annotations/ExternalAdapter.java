@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Documented
 @Component
 @Validated
-public @interface ExternalAdaptor {
+public @interface ExternalAdapter {
 
     /**
      * The value may indicate a suggestion for a logical component name,
