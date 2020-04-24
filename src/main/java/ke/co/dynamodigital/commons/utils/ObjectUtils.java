@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -19,9 +20,10 @@ import java.time.format.DateTimeFormatter;
  * created 8/28/19 at 18:34
  **/
 @Slf4j
+@UtilityClass
 public class ObjectUtils {
-    public static final ZoneId EAT_ZONE = ZoneId.of(ZoneId.SHORT_IDS.get("EAT"));
-    private final static ObjectMapper objectMapper;
+    public final ZoneId EAT_ZONE = ZoneId.of(ZoneId.SHORT_IDS.get("EAT"));
+    private final ObjectMapper objectMapper;
 
     static {
         objectMapper = new ObjectMapper();
@@ -38,7 +40,7 @@ public class ObjectUtils {
      * @return json object
      */
     @SneakyThrows(IOException.class)
-    public static String writeJson(Object object) {
+    public String writeJson(Object object) {
         return objectMapper.writeValueAsString(object);
     }
 
@@ -51,7 +53,7 @@ public class ObjectUtils {
          * @return java pojo
          */
         @SneakyThrows
-        public static <T> T readJson(String jsonString, Class<T> valueType) {
+        public <T> T readJson(String jsonString, Class<T> valueType) {
             return objectMapper.readValue(jsonString, valueType);
         }
 
@@ -65,7 +67,7 @@ public class ObjectUtils {
      */
     @SneakyThrows
     @Deprecated
-    public static <T> T jsonToObject(String jsonString, Class<T> valueType) {
+    public <T> T jsonToObject(String jsonString, Class<T> valueType) {
         return objectMapper.readValue(jsonString, valueType);
     }
 
@@ -76,7 +78,7 @@ public class ObjectUtils {
      * @param <T>   class type
      * @return found enum
      */
-    public static <T extends Enum<?>> T randomEnum(Class<T> clazz) {
+    public <T extends Enum<?>> T randomEnum(Class<T> clazz) {
         SecureRandom random = new SecureRandom();
         int x = random.nextInt(clazz.getEnumConstants().length);
         return clazz.getEnumConstants()[x];
@@ -87,7 +89,7 @@ public class ObjectUtils {
      *
      * @return zoned date formatter
      */
-    public static DateTimeFormatter zonedDf() {
+    public DateTimeFormatter zonedDf() {
         return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z");
     }
 
@@ -96,11 +98,11 @@ public class ObjectUtils {
      *
      * @return date formatter without zone
      */
-    public static DateTimeFormatter df() {
+    public DateTimeFormatter df() {
         return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     }
 
-    public static LocalDateTime nowEAT() {
+    public LocalDateTime nowEAT() {
         return LocalDateTime.now(ZoneId.of("Africa/Nairobi"));
     }
 }

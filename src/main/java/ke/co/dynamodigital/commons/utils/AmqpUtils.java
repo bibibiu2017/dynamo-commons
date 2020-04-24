@@ -1,5 +1,6 @@
 package ke.co.dynamodigital.commons.utils;
 
+import lombok.experimental.UtilityClass;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 
@@ -11,41 +12,41 @@ import java.util.Map;
  * created 8/28/19 at 23:46
  * Helper methods for AMQP
  **/
+@UtilityClass
 public class AmqpUtils {
 
     /**
      * Number of times a message has been sent to the parking queue
      */
-    public static final String RETRIES_HEADER = "x-retries";
+    public final String RETRIES_HEADER = "x-retries";
 
     /**
      * Number of milliseconds to delay message
      */
-    public static final String DELAY_HEADER = "x-delay";
+    public final String DELAY_HEADER = "x-delay";
 
     /**
      * Name of queue to send message to after delay
      */
-    public static final String RETURN_HEADER = "x-return";
+    public final String RETURN_HEADER = "x-return";
 
     /**
      * Send to header spring functions
      */
-    public static final String SEND_TO_HEADER = "spring.cloud.stream.sendto.destination";
-
-    public static final String DEATH_HEADER = "x-death";
+    public final String SEND_TO_HEADER = "spring.cloud.stream.sendto.destination";
 
     /**
-     * Parking input
+     * Death header
      */
-    public static final String PARKING_INPUT = "parkingSinkInput";
+    public final String DEATH_HEADER = "x-death";
+
     /**
      * Gets the death count. The number of times a message has been dead lettered
      *
      * @param deathHeader Header with death information
      * @return number of times a message has been dead lettered
      */
-    public static Long getDeadLetterCount(Object deathHeader) {
+    public Long getDeadLetterCount(Object deathHeader) {
         Map<?,?> death;
         if (deathHeader instanceof Map) {
             death = (Map<?,?>) deathHeader;
@@ -62,7 +63,7 @@ public class AmqpUtils {
      * @param <T> Class type of payload
      * @return message with payload set
      */
-    public static <T> Message<T> buildMessageFrom(T var) {
+    public <T> Message<T> buildMessageFrom(T var) {
         return MessageBuilder.withPayload(var).build();
     }
 
@@ -75,7 +76,7 @@ public class AmqpUtils {
      * @return message with payload set and headers copied
      * @see #buildMessageFrom(Object)
      */
-    public static <T> Message<T> buildMessageFrom(T var, Map<String, Object> headers) {
+    public <T> Message<T> buildMessageFrom(T var, Map<String, Object> headers) {
         return MessageBuilder
                 .withPayload(var)
                 .copyHeaders(headers)
@@ -92,7 +93,7 @@ public class AmqpUtils {
      * @return message with payload set and header added
      * @see #buildMessageFrom(Object)
      */
-    public static <T> Message<T> buildMessageFrom(T var, String headerName, Object header) {
+    public <T> Message<T> buildMessageFrom(T var, String headerName, Object header) {
         return MessageBuilder
                 .withPayload(var)
                 .setHeaderIfAbsent(headerName, header)
@@ -108,9 +109,22 @@ public class AmqpUtils {
      * @param retries number of retries for a message
      * @return delay millis
      */
-    public static Integer calculateDelay(int retries) {
+    public Integer calculateDelay(int retries) {
         //noinspection WrapperTypeMayBePrimitive
         Double secs = Math.pow(2, (retries % 10));
         return 1000 * secs.intValue();
+    }
+
+    /**
+     * Calculate message delay based on the current failed attempts to process the message
+     * and a given maximum delay
+     *
+     * @param failedAttempts retries counter
+     * @param maxDelay       maximum delay
+     * @return calculated delay
+     */
+    public long exponentialDelay(long failedAttempts, long maxDelay) {
+        Double delay = ((1d / 2d) * (Math.pow(2d, failedAttempts) - 1d));
+        return Math.min(delay.longValue(), maxDelay);
     }
 }

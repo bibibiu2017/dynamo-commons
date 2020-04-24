@@ -1,4 +1,4 @@
-package ke.co.dynamodigital.commons.dtos.general;
+package ke.co.dynamodigital.commons.models.message;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,24 +17,24 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class DelayedMessageDTO<T> {
+public class DelayedMessageModel<T> {
 
     @NotNull
-    protected T payload;
+    private T payload;
 
     @Nullable
-    protected Integer retires;
+    private Integer retires;
 
     @NotNull
-    protected String address;
+    private String address;
 
     @Nullable
     protected Integer delay;
 
     @Nullable
-    protected MessageHeaders messageHeaders;
+    private MessageHeaders messageHeaders;
 
-    public DelayedMessageDTO(T payload, String address) {
+    public DelayedMessageModel(T payload, String address) {
         this(payload,null,address,null,null);
     }
 }

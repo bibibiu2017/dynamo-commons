@@ -1,25 +1,33 @@
 package ke.co.dynamodigital.commons.config;
 
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.messaging.Processor;
-import org.springframework.integration.annotation.Transformer;
+import ke.co.dynamodigital.commons.utils.AmqpUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
+import java.util.function.Function;
+
+import static ke.co.dynamodigital.commons.utils.ObjectUtils.writeJson;
+
 /**
- * @author Bibibiu
- * created 10/22/19 at 19:56
+ * @author arthurmita
+ * created 01/01/2020 at 03:53
  **/
-@EnableBinding({
-        Processor.class
-})
+@Slf4j
+@Configuration
 public class TestProcessor {
 
-    @Transformer(inputChannel = Processor.INPUT,outputChannel = Processor.OUTPUT)
-    public Object testProcessor(Message<Object> message) {
+    public static final String INPUT = "testFunction-in-0";
+    public static final String OUTPUT = "testFunction-out-0";
 
-        if (message.getPayload() instanceof String)
-            return ((String) message.getPayload()).toLowerCase();
-        else
-            return message.getPayload();
+    @Bean
+    public Function<Message<?>, Message<?>> testFunction() {
+        return message -> {
+            log.debug("\n=====================================" +
+                    "\nReceived: {}" +
+                    "\n======================================", writeJson(message));
+            return AmqpUtils.buildMessageFrom(message.getPayload(), message.getHeaders());
+        };
     }
 }

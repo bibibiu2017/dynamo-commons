@@ -1,4 +1,4 @@
-package ke.co.dynamodigital.commons.services;
+package ke.co.dynamodigital.commons.security;
 
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 

@@ -1,9 +1,12 @@
 package ke.co.dynamodigital.commons.utils;
 
+import lombok.experimental.UtilityClass;
+
 /**
  * @author lawrence
  * created 17/01/2020 at 11:22
  **/
+@UtilityClass
 public class ComparableUtils {
 
 
@@ -14,7 +17,7 @@ public class ComparableUtils {
      * @param <T> type
      * @return true if value equals ref, false otherwise
      */
-    public static <T extends Comparable<T>> boolean isEqualTo(T value, T ref) {
+    public <T extends Comparable<T>> boolean isEqualTo(T value, T ref) {
         return value.compareTo(ref) == 0;
     }
 
@@ -25,7 +28,7 @@ public class ComparableUtils {
      * @param <T> type
      * @return true if value greater than ref, false otherwise
      */
-    public static <T extends Comparable<T>> boolean isGreaterThan(T value, T ref) {
+    public <T extends Comparable<T>> boolean isGreaterThan(T value, T ref) {
         return value.compareTo(ref) > 0;
     }
 
@@ -36,7 +39,7 @@ public class ComparableUtils {
      * @param <T> type
      * @return true if value less than ref, false otherwise
      */
-    public static <T extends Comparable<T>> boolean isLessThan(T value, T ref) {
+    public <T extends Comparable<T>> boolean isLessThan(T value, T ref) {
         return value.compareTo(ref) < 0;
     }
 
@@ -49,7 +52,7 @@ public class ComparableUtils {
      * @throws IllegalArgumentException when end less than start
      * @return true if value is in specified range, false otherwise
      */
-    public static <T extends Comparable<T>> boolean isBetween(T value, T start, T end) throws IllegalArgumentException{
+    public <T extends Comparable<T>> boolean isBetween(T value, T start, T end) throws IllegalArgumentException{
         if(isLessThan(end,start)) throw new IllegalArgumentException("end must be greater than start");
         return value.compareTo(start) >= 0 && value.compareTo(end) <= 0;
     }

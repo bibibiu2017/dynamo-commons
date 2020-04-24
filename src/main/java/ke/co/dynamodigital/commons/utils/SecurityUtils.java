@@ -1,6 +1,7 @@
 package ke.co.dynamodigital.commons.utils;
 
 import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -13,10 +14,11 @@ import java.util.UUID;
  * created 8/28/19 at 10:41
  **/
 @SuppressWarnings("unchecked")
+@UtilityClass
 public class SecurityUtils {
 
     @SneakyThrows
-    public static String uuidGenerator() {
+    public String uuidGenerator() {
         return UUID.randomUUID().toString();
     }
 
