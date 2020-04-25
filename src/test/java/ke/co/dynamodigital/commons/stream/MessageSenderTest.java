@@ -117,7 +117,6 @@ class MessageSenderTest {
         Message<byte[]> message = outputDestination.receive(0, TestProcessor.OUTPUT);
         //THEN
         sofly.assertThat(sent).isTrue();
-        sofly.assertThat(message).extracting(Message::getPayload).isEqualTo(this.message.getPayload().getBytes());
         sofly.assertThat(message).extracting(Message::getHeaders)
                 .asInstanceOf(InstanceOfAssertFactories.MAP)
                 .containsEntry(AmqpUtils.RETRIES_HEADER, delayedMessage.getRetires() + 1)

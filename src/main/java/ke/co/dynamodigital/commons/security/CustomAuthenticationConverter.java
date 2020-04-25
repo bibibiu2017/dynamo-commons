@@ -20,8 +20,8 @@ public class CustomAuthenticationConverter implements Converter<Jwt, AbstractAut
     @Override
     public AbstractAuthenticationToken convert(Jwt jwt) {
 
-        var authorities = ((Collection<String>) jwt.getClaims().get("authorities"));
-        var scopes = ((Collection<String>) jwt.getClaims().get("scope"));
+        Collection<String> authorities = ((Collection<String>) jwt.getClaims().get("authorities"));
+        Collection<String> scopes = ((Collection<String>) jwt.getClaims().get("scope"));
 
         Stream<GrantedAuthority> roleAuthorities = Stream.empty();
         Stream<GrantedAuthority> roleScopes = Stream.empty();

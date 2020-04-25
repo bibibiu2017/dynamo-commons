@@ -32,6 +32,7 @@ public interface MessageSender {
      *
      * @param payload     message
      * @param destination destination
+     * @param <T> message type
      * @return true if message has been sent successfully
      */
     <T> boolean send(Message<T> payload, String destination);
@@ -42,7 +43,7 @@ public interface MessageSender {
      *
      * @param payload     message payload
      * @param destination destination
-     * @param <T>         message type
+     * @param <T>         payload type
      * @return true if message has been sent
      */
     <T> boolean send(T payload, String destination);
@@ -58,7 +59,6 @@ public interface MessageSender {
      *                            Headers put in message headers have a high priority to delayed message field values
      * @return true if message has been sent successfully
      * @see DelayedMessageModel
-     * @see ParkingStream#ParkingStream(MessageSender)
      */
     <T> boolean send(DelayedMessageModel<T> delayedMessageModel);
 
