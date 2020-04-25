@@ -68,12 +68,21 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- Feign-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- strem -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-stream</artifactId>
             <version>3.1.0.M1</version>
             <optional>true</optional>
         </dependency>
+
         <!--Stream-rabbit-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

@@ -1,4 +1,4 @@
-package ke.co.dynamodigital.commons.exceptions;
+package ke.co.dynamodigital.commons.error;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 public class ParkingStream {
     final private MessageSender messageSender;
 
-    public static final String INPUT = "parking-in-0";
+    public static final String OUTPUT = "parking-out-0";
 
     /**
      * <p>Delayed exchange default queue destination that sends the message to provided
@@ -38,21 +38,18 @@ public class ParkingStream {
     public Consumer<Message<byte[]>> parking() {
         return message -> {
             MessageHeaders headers = message.getHeaders();
-            Integer retries = headers.get(AmqpUtils.RETRIES_HEADER, Integer.class);
-            Integer delay = headers.get("amqp_receivedDelay", Integer.class);
+            Integer retries = (Integer) headers.getOrDefault(AmqpUtils.RETRIES_HEADER, 1);
+            Integer delay = (Integer) headers.getOrDefault(AmqpUtils.AMQP_DELAY_HEADER, headers.get(AmqpUtils.DELAY_HEADER));
             String address = headers.get(AmqpUtils.RETURN_HEADER, String.class);
-            val delayedPayload = message.getPayload();
+
             log.trace("Parked message: {}", ObjectUtils.writeJson(message));
             log.info("\n=======================================" +
-                    "\nParkedMessage: {}" +
-                    "\nDuration: {}" +
-                    "\nParkedTimes: {}" +
-                    "\nReturnAddress: {}" +
-                    "\n=======================================", ObjectUtils.writeJson(ObjectUtils.readJson(new String(delayedPayload), Object.class)), delay, retries, address);
+                    "\n Receiving Delayed Message" +
+                    "\nHoldFor: {}ms" +
+                    "\nDelayed: {} {}" +
+                    "\nSendTo: {}" +
+                    "\n=======================================", delay, retries, retries == 1 ? "time" : "times", address);
             val headersToReturn = new HashMap<>(headers);
-            if (retries == null) {
-                retries = 1;
-            }
             headersToReturn.put(AmqpUtils.RETRIES_HEADER, (retries + 1));
             messageSender.send(AmqpUtils.buildMessageFrom(message.getPayload(), headersToReturn), address);
         };

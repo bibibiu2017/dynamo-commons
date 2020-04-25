@@ -1,6 +1,6 @@
 package ke.co.dynamodigital.commons.stream;
 
-import ke.co.dynamodigital.commons.models.message.DelayedMessageModel;
+import ke.co.dynamodigital.commons.models.message.DelayedMessage;
 import org.springframework.messaging.Message;
 
 import java.util.function.Predicate;
@@ -13,7 +13,7 @@ public interface MessageSender {
     String OUTPUT = "messageSender-out-0";
 
     /**
-     * Sends a massage with provided payload to the
+     * Sends the provided massage  to the
      * provided destination name which is dynamically
      * resolved when the send predicate passes
      *
@@ -25,6 +25,18 @@ public interface MessageSender {
      */
     <T> boolean send(Message<T> message, String destination, Predicate<Message<T>> send);
 
+    /**
+     * Sends a massage with provided payload to the
+     * provided destination name which is dynamically
+     * resolved when the send predicate passes
+     *
+     * @param <T>         payload type
+     * @param payload     message payload to send
+     * @param destination destination to resolve
+     * @param send        send message payload
+     * @return true if message was sent successfully
+     */
+    <T> boolean send(T payload, String destination, Predicate<T> send);
 
     /**
      * {@link #send(Message, String, Predicate) Sends} a message to provided
@@ -32,7 +44,7 @@ public interface MessageSender {
      *
      * @param payload     message
      * @param destination destination
-     * @param <T> message type
+     * @param <T>         message type
      * @return true if message has been sent successfully
      */
     <T> boolean send(Message<T> payload, String destination);
@@ -55,11 +67,11 @@ public interface MessageSender {
      * Some values have default values
      *
      * @param <T>                 message type
-     * @param delayedMessageModel the message to delay
+     * @param delayedMessage the message to delay
      *                            Headers put in message headers have a high priority to delayed message field values
      * @return true if message has been sent successfully
-     * @see DelayedMessageModel
+     * @see DelayedMessage
      */
-    <T> boolean send(DelayedMessageModel<T> delayedMessageModel);
+    <T> boolean send(DelayedMessage<T> delayedMessage);
 
 }

@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class DelayedMessageModel<T> {
+public class DelayedMessage<T> {
 
     @NotNull
     private T payload;
@@ -34,7 +34,16 @@ public class DelayedMessageModel<T> {
     @Nullable
     private MessageHeaders messageHeaders;
 
-    public DelayedMessageModel(T payload, String address) {
-        this(payload,null,address,null,null);
+    public static <T> DelayedMessage<T> from(T payload, String address, Integer retires, Integer delay) {
+        return DelayedMessage.<T>builder()
+                .payload(payload)
+                .address(address)
+                .retires(retires)
+                .delay(delay)
+                .build();
+    }
+
+    public static <T> DelayedMessage<T> from(T payload, String address, Integer retires) {
+        return DelayedMessage.from(payload, address, retires, 1000);
     }
 }

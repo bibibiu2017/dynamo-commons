@@ -4,7 +4,7 @@ import ke.co.dynamodigital.commons.CommonsApplication;
 import ke.co.dynamodigital.commons.config.TestProcessor;
 import ke.co.dynamodigital.commons.config.annotations.MessageAdapterTest;
 import ke.co.dynamodigital.commons.models.base.BaseResponse;
-import ke.co.dynamodigital.commons.models.message.DelayedMessageModel;
+import ke.co.dynamodigital.commons.models.message.DelayedMessage;
 import ke.co.dynamodigital.commons.utils.AmqpUtils;
 import ke.co.dynamodigital.commons.utils.ObjectUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -105,7 +105,7 @@ class MessageSenderTest {
     @Test
     void should_send_delayedMessage() {
         //GIVEN
-        DelayedMessageModel<String> delayedMessage = DelayedMessageModel.<String>builder()
+        DelayedMessage<String> delayedMessage = DelayedMessage.<String>builder()
                 .address(TestProcessor.INPUT)
                 .delay(2000)
                 .retires(1)
@@ -114,12 +114,13 @@ class MessageSenderTest {
 
         //WHEN
         boolean sent = messageSender.send(delayedMessage);
-        Message<byte[]> message = outputDestination.receive(0, TestProcessor.OUTPUT);
+        Message<byte[]> message = outputDestination.receive(0, ParkingStream.OUTPUT);
+
         //THEN
         sofly.assertThat(sent).isTrue();
         sofly.assertThat(message).extracting(Message::getHeaders)
                 .asInstanceOf(InstanceOfAssertFactories.MAP)
-                .containsEntry(AmqpUtils.RETRIES_HEADER, delayedMessage.getRetires() + 1)
+                .containsEntry(AmqpUtils.RETRIES_HEADER, delayedMessage.getRetires())
                 .containsEntry(RETURN_HEADER, delayedMessage.getAddress())
                 .containsEntry(AmqpUtils.DELAY_HEADER, delayedMessage.getDelay());
     }
@@ -133,7 +134,7 @@ class MessageSenderTest {
             put(AmqpUtils.RETRIES_HEADER, 6);
             put(RETURN_HEADER, Processor.INPUT);
         }});
-        DelayedMessageModel<BaseResponse> delayedMessage = DelayedMessageModel.<BaseResponse>builder()
+        DelayedMessage<BaseResponse> delayedMessage = DelayedMessage.<BaseResponse>builder()
                 .payload(BaseResponse.builder().message("FOO").build())
                 .address(Processor.OUTPUT)
                 .messageHeaders(headers)
@@ -143,6 +144,7 @@ class MessageSenderTest {
 
         //when
         boolean sent = messageSender.send(delayedMessage);
+        Message<byte[]> message = outputDestination.receive(0, ParkingStream.OUTPUT);
 
         //then
         sofly.assertThat(sent).isTrue();
@@ -151,8 +153,8 @@ class MessageSenderTest {
                 .asInstanceOf(InstanceOfAssertFactories.MAP)
                 .doesNotContainEntry(AmqpUtils.DELAY_HEADER, 5000)
                 .doesNotContainEntry(AmqpUtils.RETRIES_HEADER, 2)
-                .doesNotContainEntry(AmqpUtils.DELAY_HEADER, 3000)
-                .doesNotContainEntry(AmqpUtils.RETRIES_HEADER, 6);
+                .containsEntry(AmqpUtils.DELAY_HEADER, 3000)
+                .containsEntry(AmqpUtils.RETRIES_HEADER, 6);
 
 
         log.debug("\nMessageToDelay: {}", ObjectUtils.writeJson(delayedMessage));

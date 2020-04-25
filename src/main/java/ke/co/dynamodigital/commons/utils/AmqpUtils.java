@@ -41,6 +41,11 @@ public class AmqpUtils {
     public final String DEATH_HEADER = "x-death";
 
     /**
+     * AMQP delay header
+     */
+    public final String AMQP_DELAY_HEADER = "amqp_receivedDelay";
+
+    /**
      * Gets the death count. The number of times a message has been dead lettered
      *
      * @param deathHeader Header with death information

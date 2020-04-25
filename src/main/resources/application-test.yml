@@ -4,6 +4,8 @@ spring:
       default-binder: integration
       consumer:
         max-attempts: 1
+      source:
+        parking
       function:
         definition: parking;testFunction
       #================================================================================================================#

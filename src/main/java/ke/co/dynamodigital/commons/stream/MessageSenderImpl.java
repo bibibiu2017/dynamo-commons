@@ -1,6 +1,6 @@
 package ke.co.dynamodigital.commons.stream;
 
-import ke.co.dynamodigital.commons.models.message.DelayedMessageModel;
+import ke.co.dynamodigital.commons.models.message.DelayedMessage;
 import ke.co.dynamodigital.commons.utils.AmqpUtils;
 import ke.co.dynamodigital.commons.utils.ObjectUtils;
 import lombok.RequiredArgsConstructor;
@@ -32,19 +32,30 @@ public class MessageSenderImpl implements MessageSender {
     @Override
     public <T> boolean send(Message<T> message, String destination, Predicate<Message<T>> send) {
         if (send.test(message)) {
-            T payload = message.getPayload();
-            log.info("\n===================================" +
+            log.info("\n======================================================" +
                     "\nMessage sender send condition passed" +
-                    "\nSending Message: {}" +
-                    "\nTo: {}" +
-                    "\n===================================", ObjectUtils.writeJson(payload), destination);
+                    "\nAttempting to Send Message To: {}" +
+                    "\n======================================================", destination);
             return streamBridge.send(destination, message);
         }
-        log.info("\n===================================" +
+        log.info("\n=========================================================" +
                 "\nMessage sender send condition failed" +
-                "\nWill not send message" +
-                "=====================================");
+                "\nWill not send message To: {}" +
+                "\n===========================================================", destination);
         return false;
+    }
+
+    @Override
+    public <T> boolean send(T payload, String destination, Predicate<T> send) {
+        if (send.test(payload)) {
+            return send(payload, destination);
+        } else {
+            log.info("\n=========================================================" +
+                    "\nMessage sender send condition failed" +
+                    "\nWill not send message To: {}" +
+                    "\n===========================================================", destination);
+            return false;
+        }
     }
 
 
@@ -59,12 +70,12 @@ public class MessageSenderImpl implements MessageSender {
     }
 
     @Override
-    public <T> boolean send(@Valid DelayedMessageModel<T> delayedMessageModel) {
+    public <T> boolean send(@Valid DelayedMessage<T> delayedMessage) {
         //using Lombok val to ensure that these variables are effectively final
-        val retries = delayedMessageModel.getRetires() == null ? 1 : delayedMessageModel.getRetires();
-        val delay = delayedMessageModel.getDelay() == null ? 2000 : delayedMessageModel.getDelay();
-        val address = delayedMessageModel.getAddress();
-        val receivedHeaders = delayedMessageModel.getMessageHeaders() == null ? new MessageHeaders(null) : delayedMessageModel.getMessageHeaders();
+        val retries = delayedMessage.getRetires() == null ? 1 : delayedMessage.getRetires();
+        val delay = delayedMessage.getDelay() == null ? 2000 : delayedMessage.getDelay();
+        val address = delayedMessage.getAddress();
+        val receivedHeaders = delayedMessage.getMessageHeaders() == null ? new MessageHeaders(null) : delayedMessage.getMessageHeaders();
         val headers = new HashMap<>(receivedHeaders) {{
             //Headers in provided message headers take president
             if (receivedHeaders.get(AmqpUtils.RETRIES_HEADER) == null) {
@@ -77,7 +88,7 @@ public class MessageSenderImpl implements MessageSender {
                 put(AmqpUtils.RETURN_HEADER, address);
             }
         }};
-        Message<?> message = AmqpUtils.buildMessageFrom(ObjectUtils.writeJson(delayedMessageModel.getPayload()), headers);
-        return send(message, ParkingStream.INPUT);
+        Message<?> message = AmqpUtils.buildMessageFrom(ObjectUtils.writeJson(delayedMessage.getPayload()), headers);
+        return send(message, ParkingStream.OUTPUT);
     }
 }
