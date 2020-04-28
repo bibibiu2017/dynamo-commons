@@ -5,6 +5,7 @@ import ke.co.dynamodigital.commons.utils.ObjectUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
@@ -35,6 +36,7 @@ public class ParkingStream {
      * @return The stream {@link Consumer} that will process this
      */
     @Bean
+    @ConditionalOnBean(MessageSender.class)
     public Consumer<Message<byte[]>> parking() {
         return message -> {
             MessageHeaders headers = message.getHeaders();

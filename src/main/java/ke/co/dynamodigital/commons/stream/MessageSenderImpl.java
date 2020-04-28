@@ -6,9 +6,7 @@ import ke.co.dynamodigital.commons.utils.ObjectUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
@@ -21,11 +19,9 @@ import java.util.function.Predicate;
  * created 10/22/19 at 11:42
  **/
 @Slf4j
-@Configuration
 @RequiredArgsConstructor
-public class MessageSenderImpl implements MessageSender {
+class MessageSenderImpl implements MessageSender {
 
-    @Autowired
     private final StreamBridge streamBridge;
 
 

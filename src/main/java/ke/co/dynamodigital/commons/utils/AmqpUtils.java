@@ -52,11 +52,11 @@ public class AmqpUtils {
      * @return number of times a message has been dead lettered
      */
     public Long getDeadLetterCount(Object deathHeader) {
-        Map<?,?> death;
+        Map<?, ?> death;
         if (deathHeader instanceof Map) {
-            death = (Map<?,?>) deathHeader;
+            death = (Map<?, ?>) deathHeader;
         } else {
-            death = (Map<?, ?>) ((List<?>)deathHeader).get(0);
+            death = (Map<?, ?>) ((List<?>) deathHeader).get(0);
         }
         return (Long) death.get("count");
     }
@@ -114,6 +114,7 @@ public class AmqpUtils {
      * @param retries number of retries for a message
      * @return delay millis
      */
+    @Deprecated(since = "1.0.0-SNAPSHOT", forRemoval = true)
     public Integer calculateDelay(int retries) {
         //noinspection WrapperTypeMayBePrimitive
         Double secs = Math.pow(2, (retries % 10));

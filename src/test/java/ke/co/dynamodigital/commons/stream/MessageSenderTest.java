@@ -26,7 +26,6 @@ import java.util.function.Predicate;
 import static ke.co.dynamodigital.commons.utils.AmqpUtils.RETURN_HEADER;
 
 
-@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Slf4j
 @MessageAdapterTest(classes = {CommonsApplication.class})
 class MessageSenderTest {
