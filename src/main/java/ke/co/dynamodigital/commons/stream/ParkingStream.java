@@ -22,8 +22,6 @@ import java.util.function.Consumer;
 @Configuration
 @RequiredArgsConstructor
 public class ParkingStream {
-    final private MessageSender messageSender;
-
     public static final String OUTPUT = "parking-out-0";
 
     /**
@@ -34,10 +32,11 @@ public class ParkingStream {
      * it to this queue</p>
      *
      * @return The stream {@link Consumer} that will process this
+     * @param messageSender
      */
     @Bean
-    @ConditionalOnBean(MessageSender.class)
-    public Consumer<Message<byte[]>> parking() {
+    @ConditionalOnBean({MessageSender.class})
+    public Consumer<Message<byte[]>> parking(final MessageSender messageSender) {
         return message -> {
             MessageHeaders headers = message.getHeaders();
             Integer retries = (Integer) headers.getOrDefault(AmqpUtils.RETRIES_HEADER, 1);
