@@ -35,7 +35,6 @@ public class ParkingStream {
      * @param messageSender
      */
     @Bean
-    @ConditionalOnBean({MessageSender.class})
     public Consumer<Message<byte[]>> parking(final MessageSender messageSender) {
         return message -> {
             MessageHeaders headers = message.getHeaders();
