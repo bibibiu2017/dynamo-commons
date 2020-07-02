@@ -17,6 +17,7 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Deprecated(forRemoval = true,since = "1.0.0")
 @SuperBuilder(toBuilder = true)
 public class BaseResponse {
     @JsonProperty("timestamp")

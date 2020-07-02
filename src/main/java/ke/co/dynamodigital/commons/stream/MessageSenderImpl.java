@@ -28,17 +28,12 @@ class MessageSenderImpl implements MessageSender {
     @Override
     public <T> boolean send(Message<T> message, String destination, Predicate<Message<T>> send) {
         if (send.test(message)) {
-            log.info("\n======================================================" +
-                    "\nMessage sender send condition passed" +
-                    "\nAttempting to Send Message To: {}" +
-                    "\n======================================================", destination);
+            logStreamSuccess(message, destination);
             return streamBridge.send(destination, message);
+        } else {
+            logStreamFailure(message, destination);
+            return false;
         }
-        log.info("\n=========================================================" +
-                "\nMessage sender send condition failed" +
-                "\nWill not send message To: {}" +
-                "\n===========================================================", destination);
-        return false;
     }
 
     @Override
@@ -46,10 +41,7 @@ class MessageSenderImpl implements MessageSender {
         if (send.test(payload)) {
             return send(payload, destination);
         } else {
-            log.info("\n=========================================================" +
-                    "\nMessage sender send condition failed" +
-                    "\nWill not send message To: {}" +
-                    "\n===========================================================", destination);
+            logStreamFailure(AmqpUtils.buildMessageFrom(payload), destination);
             return false;
         }
     }
@@ -75,7 +67,7 @@ class MessageSenderImpl implements MessageSender {
         val headers = new HashMap<>(receivedHeaders) {{
             //Headers in provided message headers take president
             if (receivedHeaders.get(AmqpUtils.RETRIES_HEADER) == null) {
-                put(AmqpUtils.RETRIES_HEADER, retries);
+                put(AmqpUtils.RETRIES_HEADER, retries + 1);
             }
             if (receivedHeaders.get(AmqpUtils.DELAY_HEADER) == null) {
                 put(AmqpUtils.DELAY_HEADER, delay);
@@ -86,5 +78,51 @@ class MessageSenderImpl implements MessageSender {
         }};
         Message<?> message = AmqpUtils.buildMessageFrom(ObjectUtils.writeJson(delayedMessage.getPayload()), headers);
         return send(message, ParkingStream.OUTPUT);
+    }
+
+    private void logStreamSuccess(Message<?> message, String destination) {
+        if (log.isInfoEnabled()) {
+            log.info("\n======================================================" +
+                    "\nMessage sender send condition passed" +
+                    "\nAttempting to Send Message To: {}" +
+                    "\n======================================================", destination);
+        }
+        if (log.isDebugEnabled()) {
+            log.debug("\n======================================================" +
+                    "\nMessage sender send condition passed" +
+                    "\nAttempting to Send Message:{}" +
+                    "\n To: {}" +
+                    "\n======================================================", ObjectUtils.writeJson(message.getPayload()), destination);
+        }
+        if (log.isTraceEnabled()) {
+            log.debug("\n======================================================" +
+                    "\nMessage sender send condition passed" +
+                    "\nAttempting to Send Message:{}" +
+                    "\n To: {}" +
+                    "\n======================================================", ObjectUtils.writeJson(message), destination);
+        }
+    }
+
+    private void logStreamFailure(Message<?> message, String destination) {
+        if (log.isInfoEnabled()) {
+            log.info("\n=========================================================" +
+                    "\nMessage sender send condition failed" +
+                    "\nWill not send message To: {}" +
+                    "\n===========================================================", destination);
+        }
+        if (log.isDebugEnabled()) {
+            log.debug("\n=========================================================" +
+                    "\nMessage sender send condition failed" +
+                    "\nWill not send message: {}" +
+                    "\nTo: {}" +
+                    "\n===========================================================", ObjectUtils.writeJson(message.getPayload()), destination);
+        }
+        if (log.isTraceEnabled()) {
+            log.debug("\n=========================================================" +
+                    "\nMessage sender send condition failed" +
+                    "\nWill not send message: {}" +
+                    "\nTo: {}" +
+                    "\n===========================================================", ObjectUtils.writeJson(message), destination);
+        }
     }
 }

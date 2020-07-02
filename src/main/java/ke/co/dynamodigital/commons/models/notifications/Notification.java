@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Singular;
 import lombok.experimental.SuperBuilder;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,8 +22,7 @@ import java.util.Map;
 @SuperBuilder(toBuilder = true)
 public class Notification {
     private NotificationType notificationType;
-    @Singular("egress")
-    private List<Egress> egresses;
+    private Egress egress;
     @Singular("requirement")
-    private Map<String, String> requirements;
+    private Map<String, Object> requirements;
 }

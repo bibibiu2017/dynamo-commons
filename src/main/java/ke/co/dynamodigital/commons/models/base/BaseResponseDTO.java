@@ -1,25 +1,27 @@
 package ke.co.dynamodigital.commons.models.base;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
 /**
  * @author arthurmita
- * created 08/04/2020 at 08:17
+ * created 15/06/2020 at 12:54
  **/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
-public abstract class BaseDomain implements Serializable {
-    private static final long serialVersionUID = 789076467L;
-    private Long id;
-    private Long version;
+public class BaseResponseDTO {
+    private String id;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = STRING)
     private LocalDateTime createdOn;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = STRING)
     private LocalDateTime updatedOn;
 }

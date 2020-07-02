@@ -43,6 +43,18 @@ class ComparableUtilsTest {
         assertThat(actualResult).isEqualTo(expectedResult);
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "0.025,1,false",
+            "100.0000000001,100,true",
+            "-100,100.0,false",
+            "-256,-1000,true",
+            "0,0,true"
+    })
+    void isGreaterThanOrEqualTo(BigDecimal givenValue, BigDecimal ref, boolean expectedResult) {
+        boolean actualResult = ComparableUtils.isGreaterThanOrEqualTo(givenValue, ref);
+        assertThat(actualResult).isEqualTo(expectedResult);
+    }
 
     @ParameterizedTest
     @CsvSource({
@@ -54,6 +66,19 @@ class ComparableUtilsTest {
     })
     void isLessThan(BigDecimal givenValue, BigDecimal ref, boolean expectedResult) {
         boolean actualResult = ComparableUtils.isLessThan(givenValue, ref);
+        assertThat(actualResult).isEqualTo(expectedResult);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "0.025,1,true",
+            "100.0000000001,100,false",
+            "-100,100.0,true",
+            "-256,-1000,false",
+            "0,0,true"
+    })
+    void isLessThanOrEqualTo(BigDecimal givenValue, BigDecimal ref, boolean expectedResult) {
+        boolean actualResult = ComparableUtils.isLessThanOrEqualTo(givenValue, ref);
         assertThat(actualResult).isEqualTo(expectedResult);
     }
 

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.domain.Page;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -18,14 +19,14 @@ import java.util.stream.Collectors;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PageableModel<T> {
+public class PageableModel<T> implements Serializable {
     private Integer page;
     private Integer rows;
     private Long totalRows;
     private Integer totalPages;
     private List<T> items;
 
-    public static <T> PageableModel<T> from (Page<T> page){
+    public static <T> PageableModel<T> from(Page<T> page) {
         return PageableModel.<T>builder()
                 .totalRows(page.getTotalElements())
                 .items(page.getContent())

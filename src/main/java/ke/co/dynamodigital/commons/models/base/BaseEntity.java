@@ -23,6 +23,9 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 public abstract class BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 789076543L;
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;

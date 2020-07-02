@@ -28,11 +28,17 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+
+        <!-- Redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
         <!--Jpa-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <!--Web-->
@@ -135,11 +141,19 @@
             <artifactId>hashids</artifactId>
             <version>1.0.3</version>
         </dependency>
-        <!--Apache Commons-->
+
+        <!--Apache Commons Lang-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.9</version>
+        </dependency>
+
+        <!--Apache Commons Text-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.8</version>
         </dependency>
 
         <!--Micrometer-->
@@ -154,6 +168,13 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>27.0.1-jre</version>
+        </dependency>
+
+        <!-- StreamX -->
+        <dependency>
+            <groupId>one.util</groupId>
+            <artifactId>streamex</artifactId>
+            <version>0.7.2</version>
         </dependency>
 
         <!-- java-faker -->
@@ -276,11 +297,11 @@
     <!-- distribution management -->
     <distributionManagement>
         <snapshotRepository>
-            <id>maven-repo-malipo</id>
+            <id>maven-repo-dynamo</id>
             <url>s3://maven-repo-pawa/snapshot</url>
         </snapshotRepository>
         <repository>
-            <id>maven-repo-malipo</id>
+            <id>maven-repo-dynamo</id>
             <url>s3://maven-repo-pawa/release</url>
         </repository>
     </distributionManagement>

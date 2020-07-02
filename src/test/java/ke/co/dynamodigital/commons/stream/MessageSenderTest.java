@@ -19,6 +19,7 @@ import org.springframework.cloud.stream.binder.test.OutputDestination;
 import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.HashMap;
 import java.util.function.Predicate;
@@ -27,10 +28,11 @@ import static ke.co.dynamodigital.commons.utils.AmqpUtils.RETURN_HEADER;
 
 
 @Slf4j
+@ActiveProfiles("test_commons")
 @MessageAdapterTest(classes = {CommonsApplication.class})
 class MessageSenderTest {
 
-    private SoftAssertions sofly;
+    private SoftAssertions softly;
 
     @Autowired
     private MessageSender messageSender;
@@ -42,13 +44,13 @@ class MessageSenderTest {
 
     @BeforeEach
     void setUp() {
-        sofly = new SoftAssertions();
+        softly = new SoftAssertions();
         message = AmqpUtils.buildMessageFrom("FOO");
     }
 
     @AfterEach
     void tearDown() {
-        sofly.assertAll();
+        softly.assertAll();
     }
 
     @Test
@@ -61,8 +63,8 @@ class MessageSenderTest {
         Message<byte[]> message = outputDestination.receive(0, TestProcessor.OUTPUT);
 
         //THEN
-        sofly.assertThat(sent).isTrue();
-        sofly.assertThat(message).extracting(Message::getPayload).isEqualTo(this.message.getPayload().getBytes());
+        softly.assertThat(sent).isTrue();
+        softly.assertThat(message).extracting(Message::getPayload).isEqualTo(this.message.getPayload().getBytes());
     }
 
     @Test
@@ -75,8 +77,8 @@ class MessageSenderTest {
         Message<byte[]> message = outputDestination.receive(0, TestProcessor.OUTPUT);
 
         //THEN
-        sofly.assertThat(sent).isFalse();
-        sofly.assertThat(message).isNull();
+        softly.assertThat(sent).isFalse();
+        softly.assertThat(message).isNull();
     }
 
     @Test
@@ -86,8 +88,8 @@ class MessageSenderTest {
         Message<byte[]> message = outputDestination.receive(0, TestProcessor.OUTPUT);
 
         //THEN
-        sofly.assertThat(sent).isTrue();
-        sofly.assertThat(message).extracting(Message::getPayload).isEqualTo(this.message.getPayload().getBytes());
+        softly.assertThat(sent).isTrue();
+        softly.assertThat(message).extracting(Message::getPayload).isEqualTo(this.message.getPayload().getBytes());
     }
 
     @Test
@@ -97,8 +99,8 @@ class MessageSenderTest {
         Message<byte[]> message = outputDestination.receive(0, TestProcessor.OUTPUT);
 
         //THEN
-        sofly.assertThat(sent).isTrue();
-        sofly.assertThat(message).extracting(Message::getPayload).isEqualTo(this.message.getPayload().getBytes());
+        softly.assertThat(sent).isTrue();
+        softly.assertThat(message).extracting(Message::getPayload).isEqualTo(this.message.getPayload().getBytes());
     }
 
     @Test
@@ -116,10 +118,10 @@ class MessageSenderTest {
         Message<byte[]> message = outputDestination.receive(0, ParkingStream.OUTPUT);
 
         //THEN
-        sofly.assertThat(sent).isTrue();
-        sofly.assertThat(message).extracting(Message::getHeaders)
+        softly.assertThat(sent).isTrue();
+        softly.assertThat(message).extracting(Message::getHeaders)
                 .asInstanceOf(InstanceOfAssertFactories.MAP)
-                .containsEntry(AmqpUtils.RETRIES_HEADER, delayedMessage.getRetires())
+                .containsEntry(AmqpUtils.RETRIES_HEADER, delayedMessage.getRetires() + 1)
                 .containsEntry(RETURN_HEADER, delayedMessage.getAddress())
                 .containsEntry(AmqpUtils.DELAY_HEADER, delayedMessage.getDelay());
     }
@@ -146,8 +148,8 @@ class MessageSenderTest {
         Message<byte[]> message = outputDestination.receive(0, ParkingStream.OUTPUT);
 
         //then
-        sofly.assertThat(sent).isTrue();
-        sofly.assertThat(message)
+        softly.assertThat(sent).isTrue();
+        softly.assertThat(message)
                 .extracting(Message::getHeaders)
                 .asInstanceOf(InstanceOfAssertFactories.MAP)
                 .doesNotContainEntry(AmqpUtils.DELAY_HEADER, 5000)
