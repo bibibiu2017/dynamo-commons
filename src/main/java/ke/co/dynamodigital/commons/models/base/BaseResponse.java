@@ -1,28 +1,33 @@
 package ke.co.dynamodigital.commons.models.base;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Singular;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
-import java.util.Map;
+
+import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
 /**
- * @author Bibibiu
- * created 8/28/19 at 13:43
+ * @author arthurmita
+ * created 15/06/2020 at 12:54
  **/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Deprecated(forRemoval = true,since = "1.0.0")
 @SuperBuilder(toBuilder = true)
 public class BaseResponse {
-    @JsonProperty("timestamp")
-    private LocalDateTime timestamp;
-    private String message;
-    @Singular("additionalInfo")
-    private Map<String, Object> additionalInfo;
+    @Schema(description = "Unique ID", example = "94909162-096c-43cf-a5e0-b734eca302f8")
+    private String id;
+
+    @Schema(description = "Creation timestamp", example = "2020-02-02 19:00:00")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = STRING)
+    private LocalDateTime createdOn;
+
+    @Schema(description = "Last update timestamp", example = "2020-02-02 19:00:00")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = STRING)
+    private LocalDateTime updatedOn;
 }

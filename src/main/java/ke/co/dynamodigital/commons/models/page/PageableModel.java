@@ -1,5 +1,6 @@
 package ke.co.dynamodigital.commons.models.page;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,11 +20,21 @@ import java.util.stream.Collectors;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(name = "PageResponse")
 public class PageableModel<T> implements Serializable {
+    @Schema(description = "Current page", example = "0", required = true)
     private Integer page;
+
+    @Schema(description = "Rows received", example = "1", required = true)
     private Integer rows;
+
+    @Schema(description = "Total rows available", example = "15", required = true)
     private Long totalRows;
+
+    @Schema(description = "Total pages available", type = "int",example = "15", required = true)
     private Integer totalPages;
+
+    @Schema(description = "Found items", required = true)
     private List<T> items;
 
     public static <T> PageableModel<T> from(Page<T> page) {

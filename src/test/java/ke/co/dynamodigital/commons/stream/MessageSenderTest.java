@@ -3,7 +3,6 @@ package ke.co.dynamodigital.commons.stream;
 import ke.co.dynamodigital.commons.CommonsApplication;
 import ke.co.dynamodigital.commons.config.TestProcessor;
 import ke.co.dynamodigital.commons.config.annotations.MessageAdapterTest;
-import ke.co.dynamodigital.commons.models.base.BaseResponse;
 import ke.co.dynamodigital.commons.models.message.DelayedMessage;
 import ke.co.dynamodigital.commons.utils.AmqpUtils;
 import ke.co.dynamodigital.commons.utils.ObjectUtils;
@@ -22,6 +21,7 @@ import org.springframework.messaging.MessageHeaders;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import static ke.co.dynamodigital.commons.utils.AmqpUtils.RETURN_HEADER;
@@ -135,8 +135,8 @@ class MessageSenderTest {
             put(AmqpUtils.RETRIES_HEADER, 6);
             put(RETURN_HEADER, Processor.INPUT);
         }});
-        DelayedMessage<BaseResponse> delayedMessage = DelayedMessage.<BaseResponse>builder()
-                .payload(BaseResponse.builder().message("FOO").build())
+        DelayedMessage<Map<String, String>> delayedMessage = DelayedMessage.<Map<String, String>>builder()
+                .payload(Map.of("message","FOO"))
                 .address(Processor.OUTPUT)
                 .messageHeaders(headers)
                 .delay(5000)

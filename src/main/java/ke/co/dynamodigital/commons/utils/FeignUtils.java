@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.util.Assert;
 
 /**
  * @author arthurmita
@@ -18,9 +19,17 @@ public class FeignUtils {
 
     public RequestInterceptor intercept(AuthorizedClientManager authorizedClient, String clientAuth, String bearerTokenType) {
         return requestTemplate -> {
+            Assert.notNull(authorizedClient, "Authorized client manager cannot be null");
+            log.trace("\n=======================================================================" +
+                    "\nGetting Authorization for client with name: {}" +
+                    "\n======================================================================", clientAuth);
             OAuth2AuthorizedClient authorized = authorizedClient.authorize(clientAuth);
+
+            Assert.notNull(authorized, "Authorized client cannot be null");
             //Get token
             final OAuth2AccessToken accessToken = authorized.getAccessToken();
+
+            log.trace("Access Token: {}", accessToken);
 
             String token = accessToken.getTokenValue();
             if (requestTemplate.headers().containsKey(HttpHeaders.AUTHORIZATION))
