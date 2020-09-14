@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.6.RELEASE</version>
+        <version>2.3.3.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>ke.co.dynamodigital</groupId>
     <artifactId>commons</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <name>commons</name>
     <description>This project holds common resources for all Dynamo projects</description>
 
@@ -19,7 +19,7 @@
         <java.version>11</java.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <spring-cloud.version>Hoxton.SR3</spring-cloud.version>
+        <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
     </properties>
 
     <dependencies>
@@ -33,6 +33,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!--Jpa-->
@@ -85,7 +86,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-stream</artifactId>
-            <version>3.1.0.M1</version>
             <optional>true</optional>
         </dependency>
 
@@ -133,6 +133,7 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <optional>true</optional>
+            <scope>test</scope>
         </dependency>
 
         <!-- hash-ids-->
@@ -189,6 +190,20 @@
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
             <version>1.0.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.yaml</groupId>
+                    <artifactId>snakeyaml</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Snake Yaml-->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.26</version>
+            <classifier>android</classifier>
         </dependency>
 
         <!-- Spring annotation processor-->
@@ -214,7 +229,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-stream</artifactId>
-            <version>3.1.0.M1</version>
             <type>test-jar</type>
             <scope>test</scope>
             <classifier>test-binder</classifier>
