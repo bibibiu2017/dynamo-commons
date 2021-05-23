@@ -1,11 +1,8 @@
 package ke.co.dynamodigital.commons.models.notifications;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Bibibiu
@@ -17,5 +14,12 @@ import java.util.List;
 @Builder(toBuilder = true)
 public class Egress {
     EgressType type;
-    List<Recipient> recipients;
+
+    @Singular
+    List<Recipient> recipients = new ArrayList<>();
+
+    public Egress addRecipient(Recipient recipient) {
+        this.recipients.add(recipient);
+        return this;
+    }
 }

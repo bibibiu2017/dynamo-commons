@@ -22,7 +22,6 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 @UtilityClass
 public class ObjectUtils {
-    public final ZoneId EAT_ZONE = ZoneId.of(ZoneId.SHORT_IDS.get("EAT"));
     private final ObjectMapper objectMapper;
 
     static {

@@ -1,30 +1,22 @@
 package ke.co.dynamodigital.commons.error;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import ke.co.dynamodigital.commons.utils.LogUtils;
-import ke.co.dynamodigital.commons.utils.ObjectUtils;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.SneakyThrows;
+import ke.co.dynamodigital.commons.utils.*;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
+import javax.validation.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
@@ -44,12 +36,10 @@ public class GlobalExceptionHandlerController {
 
     /**
      * on authentication fail inform user as clearly as possible - deny
-     *
-     * @param res Response Object
-     * @throws IOException we are doing http so we expect something may go wrong
+     * @return error
      */
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<Error> handleAccessDeniedException(HttpServletResponse res) throws IOException {
+    public ResponseEntity<Error> handleAccessDeniedException() {
         return Error.response("Access Denied", HttpStatus.FORBIDDEN);
     }
 
@@ -58,13 +48,12 @@ public class GlobalExceptionHandlerController {
      * if user input doesnt match our expected Data Transfer Objects then inform them
      * clearly too
      *
-     * @param res Response Object
      * @param e   Exception thrown
-     * @return
+     * @return error
      * @throws IOException we are doing http so we expect something may go wrong
      */
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Error> handleException(HttpServletResponse res, Exception e) throws IOException {
+    public ResponseEntity<Error> handleException(Exception e) throws IOException {
         log.error("unknown exception", e);
         return Error.response("Invalid request data", BAD_REQUEST);
     }
@@ -75,7 +64,7 @@ public class GlobalExceptionHandlerController {
      *
      * @param res Response Object
      * @param ex  Custom Exception handle
-     * @return
+     * @return error
      */
     @SneakyThrows
     @ExceptionHandler(GenericHttpException.class)
@@ -87,13 +76,12 @@ public class GlobalExceptionHandlerController {
     /**
      * this method will clean up constraint violation errors and return an aggregated error string
      *
-     * @param res Response object
      * @param ce  constraint violation exception
-     * @return
+     * @return response
      */
     @SneakyThrows
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Error> handleConstraintViolationException(HttpServletResponse res, ConstraintViolationException ce) {
+    public ResponseEntity<Error> handleConstraintViolationException(ConstraintViolationException ce) {
         String message = ce.getConstraintViolations().stream()
                 .map(ConstraintViolation::getMessage)
                 .collect(Collectors.joining(","));
@@ -102,7 +90,7 @@ public class GlobalExceptionHandlerController {
 
     @SneakyThrows
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Error> handleValidationExceptions(HttpServletResponse res, MethodArgumentNotValidException ex) {
+    public ResponseEntity<Error> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
@@ -115,7 +103,6 @@ public class GlobalExceptionHandlerController {
 
     @Data
     @NoArgsConstructor
-    @AllArgsConstructor
     @SuperBuilder(toBuilder = true)
     public static class Error {
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Africa/Nairobi", shape = STRING)
@@ -135,7 +122,7 @@ public class GlobalExceptionHandlerController {
 
         public static ResponseEntity<Error> response(String message, HttpStatus status) {
             var response = getInstance(message, status);
-            LogUtils.logController("Error Response", false, response);
+            LogUtils.logController(log, "Error Response", false, response);
             return ResponseEntity.status(status).body(response);
         }
     }

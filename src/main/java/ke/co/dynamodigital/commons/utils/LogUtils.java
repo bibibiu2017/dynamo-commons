@@ -2,18 +2,16 @@ package ke.co.dynamodigital.commons.utils;
 
 import ke.co.dynamodigital.commons.error.GenericHttpException;
 import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageHeaders;
+import org.slf4j.Logger;
+import org.springframework.data.util.Pair;
+import org.springframework.messaging.*;
 
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author arthurmita
  * created 02/07/2020 at 20:45
  **/
-@Slf4j
 @UtilityClass
 public class LogUtils {
     public String USER_SECURITY_KEY = "user_id";
@@ -22,11 +20,12 @@ public class LogUtils {
     /**
      * Helper that logs an error
      *
+     * @param logger    logger
      * @param title     title of error
      * @param reason    reason the error occurred
-     * @param exception exception thrown due to error
+     * @param exception Exception
      */
-    public void logError(String title, String reason, Exception exception) {
+    public void logError(Logger logger, String title, String reason, Exception exception) {
         String message;
         if (exception instanceof GenericHttpException) {
             GenericHttpException e = (GenericHttpException) exception;
@@ -35,13 +34,13 @@ public class LogUtils {
             message = reason;
         }
         if (exception.getCause() == null)
-            log.error("\n===============================================================" +
+            logger.error("\n===============================================================" +
                     "\n     {}" +
                     "\nReason: {}" +
                     "\nException: {}" +
                     "\n===============================================================", title, message, exception.getClass().getSimpleName());
         else
-            log.error("\n===============================================================" +
+            logger.error("\n===============================================================" +
                     "\n     {}" +
                     "\nReason: {}" +
                     "\nException: {}" +
@@ -52,14 +51,15 @@ public class LogUtils {
     /**
      * Helper that logs an error
      *
+     * @param logger logger
      * @param title  title of error
      * @param reason reason the error occurred
      * @param clazz  Exception class
      */
-    public void logError(String title, String reason, Class<? extends Exception> clazz) {
+    public void logError(Logger logger, String title, String reason, Class<? extends Exception> clazz) {
         String exception = clazz.getSimpleName();
 
-        log.error("\n===============================================================" +
+        logger.error("\n===============================================================" +
                 "\n     {}" +
                 "\nReason: {}" +
                 "\nException: {}" +
@@ -70,120 +70,107 @@ public class LogUtils {
     /**
      * Helper that logs an object mapping event
      *
+     * @param logger      logger
      * @param source      source object
      * @param destination destination object
      */
-    public void logMapping(Object source, Object destination) {
+    public void logMapping(Logger logger, Object source, Object destination) {
         final String src = ObjectUtils.writeJson(source);
         final String des = ObjectUtils.writeJson(destination);
         final String srcName = source.getClass().getSimpleName();
         final String desName = destination.getClass().getSimpleName();
 
-        if (log.isInfoEnabled()) {
-            log.info("\n===========================================================" +
-                    "\nSource({})-->Destination({})" +
-                    "\n-----------------------------------------------------------" +
-                    "\n{}: {}" +
-                    "\n-----------------------------------------------------------" +
-                    "\n{}: {}" +
-                    "\n===========================================================", srcName, desName, srcName, src, desName, des);
-        } else if (log.isDebugEnabled()) {
-            log.debug("\n===========================================================" +
-                    "\nSource({})-->Destination({})" +
-                    "\n-----------------------------------------------------------" +
-                    "\n{}: {}" +
-                    "\n-----------------------------------------------------------" +
-                    "\n{}: {}" +
-                    "\n===========================================================", srcName, desName, srcName, src, desName, des);
-        } else if (log.isTraceEnabled()) {
-            log.trace("\n===========================================================" +
-                    "\nSource({})-->Destination({})" +
-                    "\n-----------------------------------------------------------" +
-                    "\n{}: {}" +
-                    "\n-----------------------------------------------------------" +
-                    "\n{}: {}" +
-                    "\n===========================================================", srcName, desName, srcName, src, desName, des);
-        }
+        logger.info("\n===========================================================" +
+                "\nSource({})-->Destination({})" +
+                "\n-----------------------------------------------------------" +
+                "\n{}: {}" +
+                "\n-----------------------------------------------------------" +
+                "\n{}: {}" +
+                "\n===========================================================", srcName, desName, srcName, src, desName, des);
     }
 
-    public void logObject(Object object, String tittle) {
+    public void logObject(Logger logger, Object object, String tittle) {
         if (Objects.isNull(object)) return;
         String json = object instanceof String ? (String) object : ObjectUtils.writeJson(object);
-        if (log.isInfoEnabled()) {
-            log.info("\n===========================================================" +
-                    "\n{}: {}" +
-                    "\n===========================================================", tittle, json);
-        } else if (log.isDebugEnabled()) {
-            log.debug("\n===========================================================" +
-                    "\n{}: {}" +
-                    "\n===========================================================", tittle, json);
-        } else if (log.isTraceEnabled()) {
-            log.trace("\n===========================================================" +
-                    "\n{}: {}" +
-                    "\n===========================================================", tittle, json);
-        }
+        logger.info("\n===========================================================" +
+                "\n{}: {}" +
+                "\n===========================================================", tittle, json);
     }
 
-    public void logObject(Object object) {
+    public void logObject(Logger logger, Object object) {
         final String className = object.getClass().getSimpleName();
-        logObject(object, className);
+        logObject(logger, object, className);
     }
 
-    public void logController(String title, boolean request, Object value) {
-        String client = getClient();
-        log.info("\n******************************************************" +
+    public void logController(Logger logger, String title, String key, Object value) {
+        var id = getClient().getFirst();
+        var isUser = getClient().getSecond();
+
+        logger.info("\n******************************************************" +
                 "\n     {}" +
                 "\n{}: {}" +
-                "\nUserID: {}" +
-                "\n*******************************************************", title, request ? "Request" : "Response", ObjectUtils.writeJson(value), client);
-    }
-
-    public void logController(String title, String key, Object value) {
-        String client = getClient();
-        log.info("\n******************************************************" +
-                "\n     {}" +
                 "\n{}: {}" +
-                "\nUserID: {}" +
-                "\n*******************************************************", title, key, ObjectUtils.writeJson(value), client);
+                "\n*******************************************************", title, key, ObjectUtils.writeJson(value), isUser ? "UserId" : "ClientId", id);
     }
 
-    public void logStream(Message<?> message, String input) {
+    public void logController(Logger logger, String title, boolean request, Object value) {
+        logController(logger, title, request ? "Request" : "Response", value);
+    }
+
+    public void logControllerRequest(Logger logger, String title, Object request) {
+        logController(logger, title, true, request);
+    }
+
+    public void logControllerResponse(Logger logger, String title, Object request) {
+        logController(logger, title, false, request);
+    }
+
+    public void logStream(Logger logger, Message<?> message, String input) {
         MessageHeaders messageHeaders = message.getHeaders();
+        var tries = messageHeaders.get(AmqpUtils.RETRIES_HEADER) == null ? 1 : messageHeaders.get(AmqpUtils.RETRIES_HEADER);
+        var death = messageHeaders.get(AmqpUtils.DEATH_HEADER);
+        var delay = messageHeaders.get(AmqpUtils.AMQP_DELAY_HEADER);
+        var payload = message.getPayload();
         var headers = new HashMap<>() {{
-            put("Death", messageHeaders.get(AmqpUtils.DEATH_HEADER));
-            put("Tries", messageHeaders.get(AmqpUtils.RETRIES_HEADER));
-            put("Delay", messageHeaders.get(AmqpUtils.AMQP_DELAY_HEADER));
+            put("Tries", tries);
+            if (Objects.nonNull(death))
+                put("Death", death);
+            if (Objects.nonNull(delay))
+                put("Delay", delay);
         }};
-        if (log.isDebugEnabled()) {
-            log.debug("\n******************************************************" +
+        if (logger.isDebugEnabled()) {
+            logger.debug("\n******************************************************" +
                     "\n     Message" +
-                    "\ninput: {}" +
-                    "\nheaders: {}" +
-                    "\npayload: {}" +
-                    "\n*******************************************************", input, ObjectUtils.writeJson(headers), ObjectUtils.writeJson(message.getPayload()));
-        } else if (log.isInfoEnabled()) {
-            log.info("\n******************************************************" +
+                    "\nStream: {}" +
+                    "\nHeaders: {}" +
+                    "\nPayload: {}" +
+                    "\n*******************************************************", input, ObjectUtils.writeJson(headers), ObjectUtils.writeJson(payload));
+        } else if (logger.isInfoEnabled()) {
+            logger.info("\n******************************************************" +
                     "\n     Message" +
-                    "\ninput: {}" +
-                    "\nheaders: {}" +
+                    "\nStream: {}" +
+                    "\nHeaders: {}" +
                     "\n*******************************************************", input, ObjectUtils.writeJson(headers));
-        } else if (log.isTraceEnabled()) {
+        } else if (logger.isTraceEnabled()) {
 
-            log.trace("\n******************************************************" +
+            logger.trace("\n******************************************************" +
                     "\n     Message" +
-                    "\ninput: {}" +
-                    "\nheaders: {}" +
-                    "\npayload: {}" +
-                    "\n*******************************************************", input, ObjectUtils.writeJson(headers), ObjectUtils.writeJson(message.getPayload()));
+                    "\nStream: {}" +
+                    "\nHeaders: {}" +
+                    "\nPayload: {}" +
+                    "\n*******************************************************", input, ObjectUtils.writeJson(messageHeaders), ObjectUtils.writeJson(payload));
         }
     }
 
-    private String getClient() {
+    private Pair<String, Boolean> getClient() {
         try {
             String userId = SecurityUtils.getExtraInfo(USER_SECURITY_KEY);
-            return Objects.isNull(userId) ? SecurityUtils.getExtraInfo(CLIENT_SECURITY_KEY) : userId;
+            if (Objects.nonNull(userId) && !userId.isBlank())
+                return Pair.of(userId, true);
+            else
+                return Pair.of(SecurityUtils.getExtraInfo(CLIENT_SECURITY_KEY), false);
         } catch (Exception e) {
-            return "ANONYMOUS";
+            return Pair.of("ANONYMOUS", false);
         }
     }
 }

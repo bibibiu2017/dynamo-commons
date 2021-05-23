@@ -5,6 +5,7 @@ import ke.co.dynamodigital.commons.utils.ObjectUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
@@ -30,10 +31,11 @@ public class ParkingStream {
      * <p><strong>Note:</strong> Message payload must be serialized to jason before sending
      * it to this queue</p>
      *
-     * @param messageSender
+     * @param messageSender message sender
      * @return The stream {@link Consumer} that will process this
      */
     @Bean
+    @ConditionalOnClass({Message.class, MessageSender.class})
     public Consumer<Message<byte[]>> parking(final MessageSender messageSender) {
         return message -> {
             MessageHeaders headers = message.getHeaders();
