@@ -12,7 +12,7 @@ import java.util.function.*;
  * created 23/05/2021 at 14:34
 **/
 @Slf4j
-class DefaultCircuitBreakerFactory extends CircuitBreakerFactory {
+public class DefaultCircuitBreakerFactory extends CircuitBreakerFactory {
 
     @Override
     public CircuitBreaker create(String id) {

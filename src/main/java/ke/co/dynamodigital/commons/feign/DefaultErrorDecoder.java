@@ -18,7 +18,7 @@ import static ke.co.dynamodigital.commons.error.DefaultServiceErrorMessage.extra
  **/
 @Slf4j
 @RequiredArgsConstructor
-class DefaultErrorDecoder implements ErrorDecoder {
+public class DefaultErrorDecoder implements ErrorDecoder {
 
     private final List<HttpStatus> retryableStatusCodes;
     private final List<HttpStatus> propagatableStatusCodes;
