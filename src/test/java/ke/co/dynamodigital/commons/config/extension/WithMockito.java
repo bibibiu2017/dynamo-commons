@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
  * created 30/03/2021 at 19:40
  **/
 @ExtendWith(MockitoExtension.class)
-abstract class WithMockito {
+public abstract class WithMockito {
     @Captor
     protected ArgumentCaptor<?> captor;
 }

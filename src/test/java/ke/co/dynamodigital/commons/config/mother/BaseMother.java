@@ -6,7 +6,7 @@ import com.github.javafaker.Faker;
  * @author arthurmita
  * created 19/01/2021 at 11:28
  **/
-abstract class BaseMother<C, M> {
+public abstract class BaseMother<C, M> {
 
     protected static final Faker faker = Faker.instance();
     protected final M mother;
