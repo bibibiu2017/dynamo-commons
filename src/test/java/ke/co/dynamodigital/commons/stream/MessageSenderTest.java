@@ -121,7 +121,7 @@ class MessageSenderTest {
         softly.assertThat(sent).isTrue();
         softly.assertThat(message).extracting(Message::getHeaders)
                 .asInstanceOf(InstanceOfAssertFactories.MAP)
-                .containsEntry(AmqpUtils.RETRIES_HEADER, delayedMessage.getRetires() + 1)
+                .containsEntry(AmqpUtils.RETRIES_HEADER, delayedMessage.getRetires())
                 .containsEntry(RETURN_HEADER, delayedMessage.getAddress())
                 .containsEntry(AmqpUtils.DELAY_HEADER, delayedMessage.getDelay());
     }

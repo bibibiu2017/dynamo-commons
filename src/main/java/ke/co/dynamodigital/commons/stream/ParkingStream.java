@@ -1,15 +1,11 @@
 package ke.co.dynamodigital.commons.stream;
 
-import ke.co.dynamodigital.commons.utils.AmqpUtils;
-import ke.co.dynamodigital.commons.utils.ObjectUtils;
-import lombok.RequiredArgsConstructor;
+import ke.co.dynamodigital.commons.utils.*;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageHeaders;
+import org.springframework.context.annotation.*;
+import org.springframework.messaging.*;
 
 import java.util.HashMap;
 import java.util.function.Consumer;
@@ -22,6 +18,7 @@ import java.util.function.Consumer;
 @Configuration
 @RequiredArgsConstructor
 public class ParkingStream {
+    static final String INPUT = "parking-in-0";
     public static final String OUTPUT = "parking-out-0";
 
     /**

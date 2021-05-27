@@ -67,7 +67,7 @@ class MessageSenderImpl implements MessageSender {
         val headers = new HashMap<>(receivedHeaders) {{
             //Headers in provided message headers take president
             if (receivedHeaders.get(AmqpUtils.RETRIES_HEADER) == null) {
-                put(AmqpUtils.RETRIES_HEADER, retries + 1);
+                put(AmqpUtils.RETRIES_HEADER, retries);
             }
             if (receivedHeaders.get(AmqpUtils.DELAY_HEADER) == null) {
                 put(AmqpUtils.DELAY_HEADER, delay);
