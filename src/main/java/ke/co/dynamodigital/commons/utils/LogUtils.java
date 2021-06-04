@@ -121,8 +121,8 @@ public class LogUtils {
         logController(logger, title, true, request);
     }
 
-    public void logControllerResponse(Logger logger, String title, Object request) {
-        logController(logger, title, false, request);
+    public void logControllerResponse(Logger logger, String title, Object response) {
+        logController(logger, title, false, response);
     }
 
     public void logStream(Logger logger, Message<?> message, String input) {
