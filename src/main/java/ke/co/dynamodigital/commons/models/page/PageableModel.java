@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
 /**
@@ -39,22 +39,22 @@ public class PageableModel<T> implements Serializable {
 
     public static <T> PageableModel<T> from(Page<T> page) {
         return PageableModel.<T>builder()
-                .totalRows(page.getTotalElements())
+                .page(page.getNumber())
                 .items(page.getContent())
                 .totalPages(page.getTotalPages())
-                .page(page.getNumber())
                 .rows(page.getNumberOfElements())
+                .totalRows(page.getTotalElements())
                 .build();
     }
 
     public <S> PageableModel<S> map(Function<? super T, ? extends S> converter) {
-        List<S> items = this.items.stream().map(converter).collect(Collectors.toList());
+        List<S> items = this.items.stream().map(converter).collect(Collectors.toUnmodifiableList());
         return PageableModel.<S>builder()
-                .totalRows(this.totalRows)
+                .items(items)
                 .rows(this.rows)
                 .page(this.page)
+                .totalRows(this.totalRows)
                 .totalPages(this.totalPages)
-                .items(items)
                 .build();
     }
 }

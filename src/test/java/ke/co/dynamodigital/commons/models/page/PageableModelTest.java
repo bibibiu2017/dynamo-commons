@@ -1,39 +1,19 @@
 package ke.co.dynamodigital.commons.models.page;
 
-import com.github.rozidan.springboot.modelmapper.WithModelMapper;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import ke.co.dynamodigital.commons.config.extension.WithSoftAssertions;
+import lombok.*;
+import org.junit.jupiter.api.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 @SpringBootTest
 @ActiveProfiles("test")
-class PageableModelTest {
-
-    private SoftAssertions softly;
-
-    @BeforeEach
-    void setUp() {
-        softly = new SoftAssertions();
-    }
-
-    @AfterEach
-    void tearDown() {
-        softly.assertAll();;
-    }
+class PageableModelTest extends WithSoftAssertions {
 
     @Autowired
     private ModelMapper modelMapper;
@@ -41,11 +21,7 @@ class PageableModelTest {
     @Test
     void map() {
         //GIVEN
-        ModelA modelA = ModelA.builder()
-                .x(1)
-                .y(2)
-                .z(3)
-                .build();
+        ModelA modelA = ModelA.builder().x(1).y(2).z(3).build();
         PageableModel<ModelA> pageableModel = PageableModel.<ModelA>builder()
                 .page(0)
                 .totalPages(1)
@@ -67,12 +43,26 @@ class PageableModelTest {
                 .containsExactly(ModelB.builder().x(1).y(2).build());
     }
 
-    @Configuration
-    @WithModelMapper(basePackages = "ke.co.dynamodigital.commons")
-    static class ModelMapperConfig {
+    @Test
+    @DisplayName("should create pageable model from page")
+    void shouldCreatePageableModelFromPage() {
+        //given:
+        ModelA modelA = ModelA.builder().x(1).y(2).z(3).build();
+        var page = new PageImpl<>(List.of(modelA));
 
+        //when:
+        var pageableModel = PageableModel.from(page);
+
+        //then:
+        softly.assertThat(pageableModel).isNotNull()
+                .satisfies(model -> {
+                    softly.assertThat(model.getPage()).isEqualTo(page.getNumber());
+                    softly.assertThat(model.getItems()).isEqualTo(page.getContent());
+                    softly.assertThat(model.getRows()).isEqualTo(page.getNumberOfElements());
+                    softly.assertThat(model.getTotalPages()).isEqualTo(page.getTotalPages());
+                    softly.assertThat(model.getTotalRows()).isEqualTo(page.getTotalElements());
+                });
     }
-
 
 }
 
