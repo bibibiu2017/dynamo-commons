@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.GenericTypeResolver;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 /**
  * @author arthurmita
  * created 04/06/2021 at 22:48
@@ -24,14 +26,16 @@ public abstract class BasePersistenceAdapter<M extends BaseModel,E extends BaseE
         this.entityType = (Class<E>) typeArguments[1];
     }
 
-    @Autowired
-    protected void setMapper(ModelMapper mapper) {
-        this.mapper = mapper;
+    protected Optional<M> create(M m) {
+        return Optional.of(m).filter(this::notExists)
+                .map(this::mapToEntity).map(this::save)
+                .map(this::mapToModel);
     }
 
-    @Autowired
-    protected void setRepository(R r) {
-        this.repository = r;
+    protected Optional<M> update(M m) {
+        return Optional.of(m).filter(this::exists)
+                .map(this::mapToEntity).map(this::save)
+                .map(this::mapToModel);
     }
 
     protected M mapToModel(E toMap) {
@@ -43,11 +47,21 @@ public abstract class BasePersistenceAdapter<M extends BaseModel,E extends BaseE
     }
 
     protected E save(E toSave) {
-        return repository.save(toSave);
+        return repository.saveAndFlush(toSave);
     }
 
     protected boolean exists(M toCheck) {
-        return repository.existsById(toCheck.getId());
+        return toCheck.getId() != null && repository.existsById(toCheck.getId());
+    }
+
+    @Autowired
+    protected void setMapper(ModelMapper mapper) {
+        this.mapper = mapper;
+    }
+
+    @Autowired
+    protected void setRepository(R r) {
+        this.repository = r;
     }
 
     protected boolean notExists(M toCheck) {
