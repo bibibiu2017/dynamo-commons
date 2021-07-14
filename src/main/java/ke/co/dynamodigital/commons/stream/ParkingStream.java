@@ -37,19 +37,30 @@ public class ParkingStream {
         return message -> {
             MessageHeaders headers = message.getHeaders();
             Integer retries = (Integer) headers.getOrDefault(AmqpUtils.RETRIES_HEADER, 1);
-            Integer delay = (Integer) headers.getOrDefault(AmqpUtils.AMQP_DELAY_HEADER, headers.get(AmqpUtils.DELAY_HEADER));
             String address = headers.get(AmqpUtils.RETURN_HEADER, String.class);
 
-            log.trace("Parked message: {}", ObjectUtils.writeJson(message));
+            logStream(message);
+            val headersToReturn = new HashMap<>(headers);
+            headersToReturn.put(AmqpUtils.RETRIES_HEADER, (retries + 1));
+            messageSender.send(AmqpUtils.buildMessageFrom(message.getPayload(), headersToReturn), address);
+        };
+    }
+
+    public void logStream(Message<byte[]> message) {
+        try {
+            MessageHeaders headers = message.getHeaders();
+            Integer retries = (Integer) headers.getOrDefault(AmqpUtils.RETRIES_HEADER, 1);
+            Integer delay = (Integer) headers.getOrDefault(AmqpUtils.AMQP_DELAY_HEADER, headers.get(AmqpUtils.DELAY_HEADER));
+            String address = headers.get(AmqpUtils.RETURN_HEADER, String.class);
             log.info("\n=======================================" +
                     "\n Receiving Delayed Message" +
                     "\nHoldFor: {}ms" +
                     "\nDelayed: {} {}" +
                     "\nSendTo: {}" +
                     "\n=======================================", delay, retries, retries == 1 ? "time" : "times", address);
-            val headersToReturn = new HashMap<>(headers);
-            headersToReturn.put(AmqpUtils.RETRIES_HEADER, (retries + 1));
-            messageSender.send(AmqpUtils.buildMessageFrom(message.getPayload(), headersToReturn), address);
-        };
+        } catch (Exception e) {
+            log.error("Could not log message", e);
+        }
+
     }
 }

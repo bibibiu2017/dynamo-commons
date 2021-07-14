@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
  * created 17/03/2021 at 01:44
  **/
 @SuppressWarnings({"rawtypes", "unchecked"})
+@Deprecated(forRemoval = true)
 public abstract class BaseModelMother<C extends BaseModel, M extends BaseModelBuilder> extends BaseMother<C, M> {
 
     protected BaseModelMother(M mother) {

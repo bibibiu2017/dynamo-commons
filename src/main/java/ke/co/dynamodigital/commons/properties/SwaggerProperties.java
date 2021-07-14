@@ -71,7 +71,7 @@ public class SwaggerProperties {
         private String writeScope;
 
         public enum Flow {
-            CLIENT, CODE
+            CLIENT, CODE, BASIC
         }
     }
 }

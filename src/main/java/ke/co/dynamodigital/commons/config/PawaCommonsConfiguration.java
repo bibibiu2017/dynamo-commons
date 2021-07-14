@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Import;
         ParkingStream.class,
         SwaggerProperties.class,
         SecurityProperties.class,
-        SwaggerConfiguration.class,
         MessageSenderAutoConfiguration.class,
         GlobalExceptionHandlerController.class,
         AuthorizedClientManagerAutoConfiguration.class

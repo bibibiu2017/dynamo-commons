@@ -28,7 +28,7 @@ class AmqpUtilsTest {
             "1,1024,0",
             "2,1024,2",
             "8,1024,128",
-            "14,1024,1024"
+            "14,1024,1024",
     })
     void exponentialDelay(long failedAttempts,long maxDelay,long expectedDelay) {
         long actualDelay = AmqpUtils.exponentialDelay(failedAttempts,maxDelay);
