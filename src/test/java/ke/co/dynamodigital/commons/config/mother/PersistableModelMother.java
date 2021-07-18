@@ -14,14 +14,14 @@ public abstract class PersistableModelMother<C extends BaseModel> extends ModelM
         super(child);
     }
 
-    public PersistableModelMother<C> merged() {
+    public <T extends PersistableModelMother<C>> T merged() {
         return this.with(C::setCreatedOn, LocalDateTime.now())
                 .with(C::setUpdatedOn, LocalDateTime.now())
-                .with(C::setId, FAKER.number().numberBetween(1, 1000L))
-                .with(C::setVersion, FAKER.number().numberBetween(1, 100L));
+                .with(C::setId, faker.number().numberBetween(1, 1000L))
+                .with(C::setVersion, faker.number().numberBetween(1, 100L));
     }
 
-    public PersistableModelMother<C> detached() {
+    public <T extends PersistableModelMother<C>> T detached() {
         return this.with(C::setCreatedOn, null)
                 .with(C::setUpdatedOn, null)
                 .with(C::setId, null)

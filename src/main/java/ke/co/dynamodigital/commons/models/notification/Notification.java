@@ -1,4 +1,4 @@
-package ke.co.dynamodigital.commons.models.notifications;
+package ke.co.dynamodigital.commons.models.notification;
 
 
 import lombok.AllArgsConstructor;

@@ -1,8 +1,8 @@
 package ke.co.dynamodigital.commons.testutils;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import ke.co.dynamodigital.commons.models.notifications.MessageType;
-import ke.co.dynamodigital.commons.models.notifications.Notification;
+import ke.co.dynamodigital.commons.models.notification.MessageType;
+import ke.co.dynamodigital.commons.models.notification.Notification;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

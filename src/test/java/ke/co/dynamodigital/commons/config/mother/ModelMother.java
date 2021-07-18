@@ -10,7 +10,7 @@ import java.util.function.*;
  **/
 @SuppressWarnings("unchecked")
 public abstract class ModelMother<C> {
-    protected final static Faker FAKER = Faker.instance();;
+    protected final static Faker faker = Faker.instance();
     protected final C child;
 
     protected ModelMother(C child) {
