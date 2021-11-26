@@ -5,12 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import one.util.streamex.StreamEx;
 import org.springframework.data.domain.Page;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.function.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author arthurmita
@@ -56,5 +58,9 @@ public class PageableModel<T> implements Serializable {
                 .totalRows(this.totalRows)
                 .totalPages(this.totalPages)
                 .build();
+    }
+
+    public Stream<T> stream() {
+        return StreamEx.of(this.items);
     }
 }

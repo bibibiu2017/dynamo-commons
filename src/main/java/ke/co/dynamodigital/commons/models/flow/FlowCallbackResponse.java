@@ -1,5 +1,6 @@
 package ke.co.dynamodigital.commons.models.flow;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
@@ -15,6 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Accessors(chain = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FlowCallbackResponse {
     @NotBlank
     private String message;

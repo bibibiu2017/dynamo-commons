@@ -2,6 +2,7 @@ package ke.co.dynamodigital.commons.utils;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -43,19 +44,6 @@ public class ObjectUtils {
         return objectMapper.writeValueAsString(object);
     }
 
-        /**
-         * Method to deserialize json object to a java pojo
-         *
-         * @param jsonString Json object to deserialize
-         * @param valueType  expected Object type
-         * @param <T>        Class type
-         * @return java pojo
-         */
-        @SneakyThrows
-        public <T> T readJson(String jsonString, Class<T> valueType) {
-            return objectMapper.readValue(jsonString, valueType);
-        }
-
     /**
      * Method to deserialize json object to a java pojo
      *
@@ -65,9 +53,21 @@ public class ObjectUtils {
      * @return java pojo
      */
     @SneakyThrows
-    @Deprecated
-    public <T> T jsonToObject(String jsonString, Class<T> valueType) {
+    public <T> T readJson(String jsonString, Class<T> valueType) {
         return objectMapper.readValue(jsonString, valueType);
+    }
+
+    /**
+     * Method to deserialize json object to a java pojo
+     *
+     * @param jsonString Json object to deserialize
+     * @param typeRef  expected Object type ref
+     * @param <T>        Class type ref
+     * @return java pojo
+     */
+    @SneakyThrows
+    public <T> T readJson(String jsonString, TypeReference<T> typeRef) {
+        return objectMapper.readValue(jsonString, typeRef);
     }
 
     /**

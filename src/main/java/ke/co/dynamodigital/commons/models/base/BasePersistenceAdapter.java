@@ -6,13 +6,14 @@ import org.springframework.core.GenericTypeResolver;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * @author arthurmita
  * created 04/06/2021 at 22:48
  **/
 @SuppressWarnings("ALL")
-public abstract class BasePersistenceAdapter<M extends BaseModel,E extends BaseEntity, R extends JpaRepository<E, Long>> {
+public abstract class BasePersistenceAdapter<M extends BaseModel, E extends BaseEntity, R extends JpaRepository<E, Long>> {
 
     protected final Class<M> modelType;
     protected final Class<E> entityType;
@@ -26,10 +27,16 @@ public abstract class BasePersistenceAdapter<M extends BaseModel,E extends BaseE
         this.entityType = (Class<E>) typeArguments[1];
     }
 
+    protected Optional<M> create(M m, Function<E, E> afterSave) {
+        var saved = Optional.of(m).filter(this::notExists).map(this::mapToEntity).map(this::save);
+        if (afterSave == null)
+            return saved.map(this::mapToModel);
+        else
+            return saved.map(afterSave).map(this::save).map(this::mapToModel);
+    }
+
     protected Optional<M> create(M m) {
-        return Optional.of(m).filter(this::notExists)
-                .map(this::mapToEntity).map(this::save)
-                .map(this::mapToModel);
+        return create(m, null);
     }
 
     protected Optional<M> update(M m) {
@@ -46,7 +53,7 @@ public abstract class BasePersistenceAdapter<M extends BaseModel,E extends BaseE
         return mapper.map(toMap, entityType);
     }
 
-    protected E save(E toSave) {
+    private E save(E toSave) {
         return repository.saveAndFlush(toSave);
     }
 

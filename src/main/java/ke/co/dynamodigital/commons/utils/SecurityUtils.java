@@ -32,7 +32,7 @@ public class SecurityUtils {
      */
     @SneakyThrows
     @Deprecated(forRemoval = true, since = "version 0.2.0")
-    public static <T> T getExtraInfo(String key, Class<T> type) {
+    public  <T> T getExtraInfo(String key, Class<T> type) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Assert.notNull(auth,"Authentication cannot be null");
         Jwt claims = (Jwt) auth.getCredentials();
@@ -46,10 +46,18 @@ public class SecurityUtils {
      * @param <T> the class type of extracted info
      * @return found info
      */
-    public static <T> T getExtraInfo(String key) {
+    public <T> T getExtraInfo(String key) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Assert.notNull(auth,"Authentication cannot be null");
         Jwt claims = (Jwt) auth.getCredentials();
         return (T) claims.getClaims().get(key);
+    }
+
+    public String[] springDocAntMaters() {
+        return new String[]{"/v3/api-docs*/**", "/swagger-ui/**", "/swagger-ui.html"};
+    }
+
+    public String[] actuatorAntMaters() {
+        return new String[] {"/actuator/health/**", "/actuator/wavefront/**"};
     }
 }
