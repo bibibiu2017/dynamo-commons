@@ -53,6 +53,10 @@ public class SecurityUtils {
         return (T) claims.getClaims().get(key);
     }
 
+    public String getUserIdFromContext() {
+        return SecurityUtils.getExtraInfo("user_id");
+    }
+
     public String[] springDocAntMaters() {
         return new String[]{"/v3/api-docs*/**", "/swagger-ui/**", "/swagger-ui.html"};
     }

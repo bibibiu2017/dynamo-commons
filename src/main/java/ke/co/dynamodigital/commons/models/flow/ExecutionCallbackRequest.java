@@ -15,7 +15,7 @@ import java.util.Map;
 @Jacksonized
 @SuperBuilder(toBuilder = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class FlowCallbackRequest {
+public class ExecutionCallbackRequest {
     @NotBlank
     private String address;
 
@@ -38,6 +38,6 @@ public class FlowCallbackRequest {
     private Map<String, String> responses = new HashMap<>();
 
     public enum RequestType {
-        OPTIONS, VALIDATION, CALLBACK
+        OPTIONS, VALIDATION, SUBMIT, MESSAGE
     }
 }
